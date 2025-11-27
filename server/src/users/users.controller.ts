@@ -16,7 +16,12 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: CreateUserDto) {
+    if (await this.usersService.findOneByUsername(createUserDto.username)) {
+      return; //exception
+    } else if (await this.usersService.findOneByEmail(createUserDto.email)) {
+      return; //exception
+    }
     return this.usersService.create(createUserDto);
   }
 
@@ -25,9 +30,14 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @Get(':username')
+  findOneByUsername(@Param('username') username: string) {
+    return this.usersService.findOneByUsername(username);
+  }
+
+  @Get(':email')
+  findOneByEmail(@Param('email') email: string) {
+    return this.usersService.findOneByEmail(email);
   }
 
   @Patch(':id')

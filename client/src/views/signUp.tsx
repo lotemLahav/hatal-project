@@ -1,4 +1,3 @@
-import { User } from "../utils/types";
 import { useUser } from "../context/userContext";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -138,7 +137,7 @@ export const SignUp = () => {
                 <Form.Group as={Row} className="mb-3 justify-content-center">
                     <Col sm="5">
                         <InputGroup hasValidation>
-                            <Form.Control type="text" name="email" isInvalid={!!errors.email} isValid={errors.email === null}/>
+                            <Form.Control type="text" name="email" isInvalid={!!errors.email} isValid={errors.email === null} />
                             <Form.Label column sm="2">
                                 Email
                             </Form.Label>
