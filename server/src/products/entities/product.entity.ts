@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ProductGenre } from '../enums/genre';
 import { ProductProduction } from '../enums/location';
+import { Order } from 'src/orders/entities/order.entity';
 
 @Entity({ name: 'products' })
 export class Product {
@@ -10,7 +11,7 @@ export class Product {
   @Column({ nullable: false })
   name: string;
 
-  @Column({ nullable: false, type: 'double' })
+  @Column({ nullable: false, type: 'float' })
   price: number;
 
   @Column({ nullable: false, type: 'numeric', precision: 10, scale: 2 })
@@ -36,4 +37,7 @@ export class Product {
 
   @Column({ type: 'text' })
   image_url: string;
+
+  @ManyToMany(() => Order, (order) => order.products, { cascade: true })
+  orders: Order[];
 }
