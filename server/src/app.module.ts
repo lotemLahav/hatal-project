@@ -22,6 +22,7 @@ import { OrdersModule } from './orders/orders.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         entities: [join(process.cwd(), 'dist/**/*.entity.js')],
+        synchronize: true,
       }),
     }),
     UsersModule,
