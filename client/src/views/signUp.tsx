@@ -1,4 +1,3 @@
-import { useUser } from "../context/userContext";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -6,9 +5,11 @@ import Col from "react-bootstrap/esm/Col";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { FormEvent, useState } from "react";
+import { usePostUser } from "../api/hooks/usePostUser";
+import Swal from "sweetalert2";
 
 export const SignUp = () => {
-    const { selectedUsername } = useUser();
+    const { postUser } = usePostUser();
 
     type FormValues = {
         username: string;
@@ -62,40 +63,37 @@ export const SignUp = () => {
 
         (Object.keys(values) as (keyof FormValues)[]).forEach((key) => {
             const err = validateField(key, values[key]);
-            if (err) {
-                newErrors[key] = err;
-            } else {
-                newErrors[key] = null;
-            }
+            newErrors[key] = err ? err : null;
         });
 
         setErrors(newErrors);
 
-        if (Object.keys(newErrors).length === 0) {
-            return true;
-        }
-
-        return false;
+        return Object.values(newErrors).every((err) => err === null);
     };
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         event.stopPropagation();
 
         const form = event.currentTarget;
         const formData = new FormData(form);
-        const newValues = {
+        const newUser = {
             username: (formData.get("username") as string) || "",
             password: (formData.get("password") as string) || "",
             email: (formData.get("email") as string) || "",
             phone: (formData.get("phone") as string) || "",
         }
 
-        if (specificValidation(newValues)) {
-            // api
-            return;
+        if (specificValidation(newUser)) {
+            try {
+                await postUser(newUser);
+            } catch (error: unknown) {
+                Swal.fire("theres a problem!", "cant create user", "error");
+                console.error(`${error} couldn't save user.`);
+            }
         }
-    };
+    }
 
 
     return (
@@ -114,9 +112,6 @@ export const SignUp = () => {
                             <Form.Label column sm="2">Username</Form.Label>
                             <Form.Control.Feedback type="invalid">
                                 {errors.username}
-                            </Form.Control.Feedback>
-                            <Form.Control.Feedback type="valid">
-                                Looks good!
                             </Form.Control.Feedback>
                         </InputGroup>
                     </Col>
@@ -170,3 +165,4 @@ export const SignUp = () => {
         </div>
     );
 }
+

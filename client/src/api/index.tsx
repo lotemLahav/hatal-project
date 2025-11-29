@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 export default {
   users() {
     return {
-      addUser: (user: User): Promise<AxiosResponse<User>> =>
+      create: (user: User): Promise<AxiosResponse<User>> =>
         axiosInstance.post(`users`, user),
     };
   },
