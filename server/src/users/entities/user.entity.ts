@@ -9,13 +9,13 @@ export class User {
   @Column({ unique: true, nullable: false })
   username: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   password: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: false })
   email: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   phone: number;
 
   @OneToMany(() => Order, (order) => order.user)

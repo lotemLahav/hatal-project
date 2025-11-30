@@ -1,13 +1,13 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import Col from "react-bootstrap/esm/Col";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { FormEvent, useState } from "react";
 import { usePostUser } from "../api/hooks/usePostUser";
 import Swal from "sweetalert2";
-import { GoogleLogin } from '@react-oauth/google';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
+import { User } from '../utils/types';
 
 export const SignUp = () => {
     const { postUser } = usePostUser();
@@ -96,6 +96,32 @@ export const SignUp = () => {
         }
     }
 
+    type GoogleJwtPayload = {
+        sub: string;          
+        name: string;         
+        given_name: string;   
+        family_name: string;  
+        picture: string;      
+        email: string;        
+        email_verified: boolean;
+        locale: string;
+    };
+
+    const onSuccess = async (credentialResponse: CredentialResponse) => {
+        const decodedInfo = jwtDecode(credentialResponse.credential!);
+        const userInfo = decodedInfo as GoogleJwtPayload;
+        const newUser : Partial<User> = {
+            username: userInfo.name,
+            email: userInfo.email
+        }
+        try {
+            await postUser(newUser);
+        } catch (error: unknown) {
+            Swal.fire("theres a problem!", "cant create user", "error");
+            console.error(`${error} couldn't save user.`);
+        }
+    }
+
 
     return (
         <div className="container-fluid">
@@ -116,7 +142,7 @@ export const SignUp = () => {
                                     isInvalid={!!errors.username}
                                     isValid={errors.username === null}
                                 />
-                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end'}}>
+                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end' }}>
                                     {errors.username}
                                 </Form.Control.Feedback>
                             </InputGroup>
@@ -132,7 +158,7 @@ export const SignUp = () => {
                                     isInvalid={!!errors.password}
                                     isValid={errors.password === null}
                                 />
-                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end'}}>
+                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end' }}>
                                     {errors.password}
                                 </Form.Control.Feedback>
                             </InputGroup>
@@ -148,7 +174,7 @@ export const SignUp = () => {
                                     isInvalid={!!errors.email}
                                     isValid={errors.email === null}
                                 />
-                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end'}}>
+                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end' }}>
                                     {errors.email}
                                 </Form.Control.Feedback>
                             </InputGroup>
@@ -164,7 +190,7 @@ export const SignUp = () => {
                                     isInvalid={!!errors.phone}
                                     isValid={errors.phone === null}
                                 />
-                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end'}}>
+                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end' }}>
                                     {errors.phone}
                                 </Form.Control.Feedback>
                             </InputGroup>
@@ -176,7 +202,7 @@ export const SignUp = () => {
 
                         <div style={{ width: "100%" }} className="d-flex justify-content-center mt-2">
                             <GoogleLogin
-                                onSuccess={(credentialResponse) => console.log(credentialResponse)}
+                                onSuccess={onSuccess}
                                 onError={() => console.log("login failed")}
                                 auto_select={true}
                                 text="signup_with"

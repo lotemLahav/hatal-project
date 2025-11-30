@@ -8,7 +8,7 @@ export const usePostUser = () => {
   const [createdUser, setCreatedUser] = useState<User | null>(null);
   const { userCallback } = useUser();
 
-  const postUser = async (userData: User) => {
+  const postUser = async (userData: Partial<User>) => {
     try {
       const res = await api.users().create(userData);
 

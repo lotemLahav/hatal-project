@@ -17,12 +17,21 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    if (await this.usersService.findOneByUsername(createUserDto.username)) {
+  async create(@Body() createUserDto: Partial<CreateUserDto>) {
+    if (
+      createUserDto.username &&
+      (await this.usersService.findOneByUsername(createUserDto.username))
+    ) {
       throw new BadRequestException('Username already exists');
-    } else if (await this.usersService.findOneByEmail(createUserDto.email)) {
+    } else if (
+      createUserDto.email &&
+      (await this.usersService.findOneByEmail(createUserDto.email))
+    ) {
       throw new BadRequestException('Email already in use');
-    } else if (await this.usersService.findOneByPhone(createUserDto.phone)) {
+    } else if (
+      createUserDto.phone &&
+      (await this.usersService.findOneByPhone(createUserDto.phone))
+    ) {
       throw new BadRequestException('Phone number already in use');
     }
     return this.usersService.create(createUserDto);
