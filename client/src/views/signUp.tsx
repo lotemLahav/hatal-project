@@ -7,6 +7,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { FormEvent, useState } from "react";
 import { usePostUser } from "../api/hooks/usePostUser";
 import Swal from "sweetalert2";
+import { GoogleLogin } from '@react-oauth/google';
 
 export const SignUp = () => {
     const { postUser } = usePostUser();
@@ -100,7 +101,7 @@ export const SignUp = () => {
         <div className=" justify-content-center text-center">
             <h1>Sign Up</h1>
             <Form onSubmit={handleSubmit}>
-                <Form.Group as={Row} className="mb-3 justify-content-center">
+                <Form.Group as={Row} style={{ marginTop: '5rem' }} className="mb-3 justify-content-center">
                     <Col sm="5">
                         <InputGroup hasValidation>
                             <Form.Control
@@ -117,7 +118,7 @@ export const SignUp = () => {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} className="mb-3 justify-content-center">
+                <Form.Group as={Row} style={{ marginTop: '2rem' }} className="mb-3 justify-content-center">
                     <Col sm="5">
                         <InputGroup hasValidation>
                             <Form.Control type="password" name="password" isInvalid={!!errors.password} isValid={errors.password === null} />
@@ -129,7 +130,7 @@ export const SignUp = () => {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} className="mb-3 justify-content-center">
+                <Form.Group as={Row} style={{ marginTop: '2rem' }} className="mb-3 justify-content-center">
                     <Col sm="5">
                         <InputGroup hasValidation>
                             <Form.Control type="text" name="email" isInvalid={!!errors.email} isValid={errors.email === null} />
@@ -143,7 +144,7 @@ export const SignUp = () => {
                     </Col>
                 </Form.Group>
 
-                <Form.Group as={Row} className="mb-3 justify-content-center">
+                <Form.Group as={Row} style={{ marginTop: '2rem' }} className="mb-3 justify-content-center">
                     <Col sm="5">
                         <InputGroup hasValidation>
                             <Form.Control
