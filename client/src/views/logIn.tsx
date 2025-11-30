@@ -88,9 +88,9 @@ export const LogIn = () => {
                         <InputGroup>
                             <Form.Control
                                 type="text"
-                                name="username" 
-                                isInvalid={!!errors.username} 
-                                isValid={errors.username === null}/>
+                                name="username"
+                                isInvalid={!!errors.username}
+                                isValid={errors.username === null} />
                             <Form.Label column sm="2">Username</Form.Label>
                             <Form.Control.Feedback type="invalid">
                                 {errors.username}
@@ -116,7 +116,11 @@ export const LogIn = () => {
                     Sign in
                 </Button>
             </Form>
-        </div><div>
+        </div>
+        <GoogleLogin onSuccess={(credentialResponse) => {
+            console.log(credentialResponse);
+        }} onError={() => console.log("loggin faled")} auto_select={true}/>
+            <div>
                 <p>Dont have an account? Sign up</p>
             </div></>
     );
