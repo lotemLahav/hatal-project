@@ -28,6 +28,19 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @Get(':username/:password')
+  async findUser(
+    @Param('username') username: string,
+    @Param('password') password: string,
+  ) {
+    const user = await this.usersService.findOneByUsername(username);
+    if (!user || user.password !== password) {
+      throw new BadRequestException('User isnt valid');
+    }
+
+    return user;
+  }
+
   @Get()
   findAll() {
     return this.usersService.findAll();
