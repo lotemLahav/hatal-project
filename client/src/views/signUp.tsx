@@ -7,7 +7,7 @@ import { usePostUser } from "../api/hooks/usePostUser";
 import Swal from "sweetalert2";
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-import { User } from '../utils/types';
+import { User, GoogleJwtPayload } from '../utils/types';
 
 export const SignUp = () => {
     const { postUser } = usePostUser();
@@ -95,17 +95,6 @@ export const SignUp = () => {
             }
         }
     }
-
-    type GoogleJwtPayload = {
-        sub: string;          
-        name: string;         
-        given_name: string;   
-        family_name: string;  
-        picture: string;      
-        email: string;        
-        email_verified: boolean;
-        locale: string;
-    };
 
     const onSuccess = async (credentialResponse: CredentialResponse) => {
         const decodedInfo = jwtDecode(credentialResponse.credential!);

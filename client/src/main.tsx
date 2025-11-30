@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <GoogleOAuthProvider clientId={CLIENT_ID}>
       <main className="text-center">
         <UserProvider>
-          <SignUp></SignUp>
+          <LogIn></LogIn>
         </UserProvider>
       </main>
     </GoogleOAuthProvider>

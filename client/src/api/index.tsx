@@ -10,8 +10,8 @@ export default {
     return {
       create: (user: Partial<User>): Promise<AxiosResponse<User>> =>
         axiosInstance.post(`users`, user),
-      getUser: (auth: UserAuth): Promise<AxiosResponse<User>> =>
-        axiosInstance.get(`users/${auth.username}/${auth.password}`),
+      getUser: (auth: Partial<UserAuth>): Promise<AxiosResponse<User>> =>
+        axiosInstance.get(`users/${auth.username}/${auth.password}/${auth.email}`),
     };
   },
 };
