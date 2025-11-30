@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Controller,
   Get,
@@ -7,14 +8,16 @@ import {
   Param,
   Delete,
   BadRequestException,
+  Logger,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { comparePasswords, encodePassword } from 'src/utils/bcrypt';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
   async create(@Body() createUserDto: Partial<CreateUserDto>) {
@@ -23,11 +26,16 @@ export class UsersController {
       (await this.usersService.findOneByUsername(createUserDto.username))
     ) {
       throw new BadRequestException('Username already exists');
-    } else if (
-      createUserDto.email &&
-      (await this.usersService.findOneByEmail(createUserDto.email))
-    ) {
-      throw new BadRequestException('Email already in use');
+    } else if (createUserDto.password) {
+      createUserDto.password = encodePassword(createUserDto.password);
+    }
+
+    if (createUserDto.email) {
+      if (await this.usersService.findOneByEmail(createUserDto.email)) {
+        throw new BadRequestException('Email already in use');
+      } else {
+        createUserDto.password = encodePassword(createUserDto.email);
+      }
     } else if (
       createUserDto.phone &&
       (await this.usersService.findOneByPhone(createUserDto.phone))
@@ -37,14 +45,14 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Get(':username/:password')
-  async findUser(
-    @Param('username') username: string,
-    @Param('password') password: string,
-  ) {
+  @Post('login')
+  async loginUser(@Body() body: { username: string; password: string }) {
+    const { username, password } = body;
+
     const user = await this.usersService.findOneByUsername(username);
-    if (!user || user.password !== password) {
-      throw new BadRequestException('User isnt valid');
+
+    if (!user || !comparePasswords(password, user.password)) {
+      throw new BadRequestException('User is not valid');
     }
 
     return user;
@@ -75,3 +83,7 @@ export class UsersController {
     return this.usersService.remove(+id);
   }
 }
+function compareSync(password: string | undefined, password1: string) {
+  throw new Error('Function not implemented.');
+}
+

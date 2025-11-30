@@ -73,9 +73,9 @@ export const LogIn = () => {
 
     const onSuccess = async (credentialResponse: CredentialResponse) => {
         const userInfo = jwtDecode(credentialResponse.credential!) as GoogleJwtPayload;
-        const newUser: Partial<UserAuth> = {
+        const newUser: UserAuth = {
             username: userInfo.name,
-            email: userInfo.email
+            password: userInfo.email
         }
         try {
             await getUser(newUser);
@@ -97,6 +97,7 @@ export const LogIn = () => {
                         <Form.Group className="mb-3">
                             <InputGroup hasValidation>
                                 <Form.Control
+                                    style={{ textAlign: "left" }}
                                     type="text"
                                     name="username"
                                     placeholder="Username"
@@ -112,6 +113,7 @@ export const LogIn = () => {
                         <Form.Group className="mb-3">
                             <InputGroup hasValidation>
                                 <Form.Control
+                                    style={{ textAlign: "left" }}
                                     type="password"
                                     name="password"
                                     placeholder="Password"

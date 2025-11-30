@@ -8,7 +8,7 @@ export const useAuthUser = () => {
   const [user, setUser] = useState<User | null>(null);
   const { userCallback } = useUser();
 
-  const getUser = async (userData: Partial<UserAuth>) => {
+  const getUser = async (userData: UserAuth) => {
     try {
       const res = await api.users().getUser(userData);
 

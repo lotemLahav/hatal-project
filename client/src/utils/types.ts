@@ -8,7 +8,6 @@ export interface User {
 export interface UserAuth {
   username: string;
   password: string;
-  email: string;
 }
 
 export type GoogleJwtPayload = {

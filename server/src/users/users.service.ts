@@ -22,7 +22,7 @@ export class UsersService {
   }
 
   findOneByUsername(username: string) {
-    return this.usersRepository.findOneBy({ username });
+    return this.usersRepository.findOne({ where: { username } });
   }
 
   findOneByPhone(phone: number) {
