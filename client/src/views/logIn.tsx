@@ -12,6 +12,51 @@ import { GoogleLogin } from '@react-oauth/google';
 export const LogIn = () => {
     const { getUser } = useAuthUser();
 
+    type FormValues = {
+        username: string;
+        password: string;
+    };
+
+    type FormErrors = {
+        username?: null | string;
+        password?: null | string;
+    };
+
+    type Rule = (value: string) => string | undefined;
+
+    const validationRules: Record<keyof FormValues, Rule[]> = {
+        username: [
+            (v) => (!v.trim() ? "Username is required" : undefined),
+        ],
+        password: [
+            (v) => (!v.trim() ? "Password is required" : undefined),
+        ],
+    };
+
+    const [errors, setErrors] = useState<FormErrors>({});
+
+    const validateField = (name: keyof FormValues, value: string) => {
+        const rules = validationRules[name];
+        for (const rule of rules) {
+            const error = rule(value);
+            if (error) return error;
+        }
+    };
+
+    const specificValidation = (values: FormValues) => {
+        const newErrors: FormErrors = {};
+
+        (Object.keys(values) as (keyof FormValues)[]).forEach((key) => {
+            const err = validateField(key, values[key]);
+            newErrors[key] = err ? err : null;
+        });
+
+        setErrors(newErrors);
+
+        return Object.values(newErrors).every((err) => err === null);
+    };
+
+
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         event.stopPropagation();
@@ -23,14 +68,15 @@ export const LogIn = () => {
             password: (formData.get("password") as string) || "",
         }
 
-        try {
-            await getUser(newUser);
-        } catch (error: unknown) {
-            Swal.fire("theres a problem!", "cant find user", "error");
-            console.error(`${error} couldn't find user.`);
+        if (specificValidation(newUser)) {
+            try {
+                await getUser(newUser);
+            } catch (error: unknown) {
+                Swal.fire("theres a problem!", "cant find user", "error");
+                console.error(`${error} couldn't find user.`);
+            }
         }
     }
-
 
     return (
         <><div className=" justify-content-center text-center">
@@ -41,10 +87,14 @@ export const LogIn = () => {
                     <Col sm="5">
                         <InputGroup>
                             <Form.Control
-                                required
                                 type="text"
-                                name="username" />
+                                name="username" 
+                                isInvalid={!!errors.username} 
+                                isValid={errors.username === null}/>
                             <Form.Label column sm="2">Username</Form.Label>
+                            <Form.Control.Feedback type="invalid">
+                                {errors.username}
+                            </Form.Control.Feedback>
                         </InputGroup>
                     </Col>
                 </Form.Group>
@@ -52,8 +102,11 @@ export const LogIn = () => {
                 <Form.Group as={Row} style={{ marginTop: '2rem' }} className="mb-3 justify-content-center">
                     <Col sm="5">
                         <InputGroup>
-                            <Form.Control required type="password" name="password" />
+                            <Form.Control type="password" name="password" isInvalid={!!errors.password} isValid={errors.password === null} />
                             <Form.Label column sm="2">Password</Form.Label>
+                            <Form.Control.Feedback type="invalid">
+                                {errors.password}
+                            </Form.Control.Feedback>
                         </InputGroup>
                     </Col>
                 </Form.Group>
