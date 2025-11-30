@@ -98,72 +98,107 @@ export const SignUp = () => {
 
 
     return (
-        <div className=" justify-content-center text-center">
-            <h1>Sign Up</h1>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group as={Row} style={{ marginTop: '5rem' }} className="mb-3 justify-content-center">
-                    <Col sm="5">
-                        <InputGroup hasValidation>
-                            <Form.Control
-                                type="text"
-                                name="username"
-                                isInvalid={!!errors.username}
-                                isValid={errors.username === null}
+        <div className="container-fluid">
+            <div className="row vh-100 flex-row">
+
+
+                <div className="col-md-5 order-md-2 order-2 d-flex flex-column justify-content-center">
+                    <h1 className="mb-4">Sign Up</h1>
+
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3">
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    style={{ textAlign: "left" }}
+                                    type="text"
+                                    name="username"
+                                    placeholder="Username"
+                                    isInvalid={!!errors.username}
+                                    isValid={errors.username === null}
+                                />
+                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end'}}>
+                                    {errors.username}
+                                </Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    style={{ textAlign: "left" }}
+                                    type="password"
+                                    name="password"
+                                    placeholder="Password"
+                                    isInvalid={!!errors.password}
+                                    isValid={errors.password === null}
+                                />
+                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end'}}>
+                                    {errors.password}
+                                </Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    style={{ textAlign: "left" }}
+                                    type="text"
+                                    name="email"
+                                    placeholder="Email"
+                                    isInvalid={!!errors.email}
+                                    isValid={errors.email === null}
+                                />
+                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end'}}>
+                                    {errors.email}
+                                </Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <InputGroup hasValidation>
+                                <Form.Control
+                                    style={{ textAlign: "left" }}
+                                    type="text"
+                                    name="phone"
+                                    placeholder="Phone Number"
+                                    isInvalid={!!errors.phone}
+                                    isValid={errors.phone === null}
+                                />
+                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end'}}>
+                                    {errors.phone}
+                                </Form.Control.Feedback>
+                            </InputGroup>
+                        </Form.Group>
+
+                        <Button type="submit" className="w-100 mb-3">
+                            Submit
+                        </Button>
+
+                        <div style={{ width: "100%" }} className="d-flex justify-content-center mt-2">
+                            <GoogleLogin
+                                onSuccess={(credentialResponse) => console.log(credentialResponse)}
+                                onError={() => console.log("login failed")}
+                                auto_select={true}
+                                text="signup_with"
+                                width="100%"
                             />
-                            <Form.Label column sm="2">Username</Form.Label>
-                            <Form.Control.Feedback type="invalid">
-                                {errors.username}
-                            </Form.Control.Feedback>
-                        </InputGroup>
-                    </Col>
-                </Form.Group>
+                        </div>
 
-                <Form.Group as={Row} style={{ marginTop: '2rem' }} className="mb-3 justify-content-center">
-                    <Col sm="5">
-                        <InputGroup hasValidation>
-                            <Form.Control type="password" name="password" isInvalid={!!errors.password} isValid={errors.password === null} />
-                            <Form.Label column sm="2">Password</Form.Label>
-                            <Form.Control.Feedback type="invalid">
-                                {errors.password}
-                            </Form.Control.Feedback>
-                        </InputGroup>
-                    </Col>
-                </Form.Group>
+                        <p>already have an account? sign in</p>
+                    </Form>
+                </div>
+                <div className="col-md-6 order-md-1 order-1 px-5">
+                    {/* <img
+                        src="https://via.placeholder.com/800x1000"
+                        alt="Signup Illustration"
+                        className="img-fluid w-100 h-100"
+                        style={{ objectFit: "cover" }}
+                    /> */}
+                </div>
 
-                <Form.Group as={Row} style={{ marginTop: '2rem' }} className="mb-3 justify-content-center">
-                    <Col sm="5">
-                        <InputGroup hasValidation>
-                            <Form.Control type="text" name="email" isInvalid={!!errors.email} isValid={errors.email === null} />
-                            <Form.Label column sm="2">
-                                Email
-                            </Form.Label>
-                            <Form.Control.Feedback type="invalid">
-                                {errors.email}
-                            </Form.Control.Feedback>
-                        </InputGroup >
-                    </Col>
-                </Form.Group>
-
-                <Form.Group as={Row} style={{ marginTop: '2rem' }} className="mb-3 justify-content-center">
-                    <Col sm="5">
-                        <InputGroup hasValidation>
-                            <Form.Control
-                                type="tel" name="phone" isInvalid={!!errors.phone} isValid={errors.phone === null} />
-                            <Form.Label column sm="2">
-                                Phone Number
-                            </Form.Label>
-                            <Form.Control.Feedback type="invalid">
-                                {errors.phone}
-                            </Form.Control.Feedback>
-                        </InputGroup>
-                    </Col>
-                </Form.Group>
-
-                <Button variant="primary" type="submit">
-                    Submit
-                </Button>
-            </Form>
+            </div>
         </div>
     );
+
 }
 

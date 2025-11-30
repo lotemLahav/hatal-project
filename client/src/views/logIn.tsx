@@ -8,6 +8,7 @@ import { FormEvent, useState } from "react";
 import { useAuthUser } from "../api/hooks/useAuthUser";
 import Swal from "sweetalert2";
 import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 export const LogIn = () => {
     const { getUser } = useAuthUser();
