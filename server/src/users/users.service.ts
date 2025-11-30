@@ -12,7 +12,7 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
+  create(createUserDto: Partial<CreateUserDto>) {
     const user = this.usersRepository.create(createUserDto);
     return this.usersRepository.save(user);
   }
@@ -22,7 +22,7 @@ export class UsersService {
   }
 
   findOneByUsername(username: string) {
-    return this.usersRepository.findOneBy({ username });
+    return this.usersRepository.findOne({ where: { username } });
   }
 
   findOneByPhone(phone: number) {

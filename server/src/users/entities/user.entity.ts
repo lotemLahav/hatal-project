@@ -12,10 +12,10 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: false })
   email: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   phone: number;
 
   @OneToMany(() => Order, (order) => order.user)

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { User } from "../utils/types";
+import { User, UserAuth } from "../utils/types";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:5000/",
@@ -8,8 +8,10 @@ const axiosInstance = axios.create({
 export default {
   users() {
     return {
-      create: (user: User): Promise<AxiosResponse<User>> =>
+      create: (user: Partial<User>): Promise<AxiosResponse<User>> =>
         axiosInstance.post(`users`, user),
+      getUser: (auth: UserAuth): Promise<AxiosResponse<User>> =>
+        axiosInstance.post(`users/login`, auth),
     };
   },
 };
