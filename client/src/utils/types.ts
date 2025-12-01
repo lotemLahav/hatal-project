@@ -20,3 +20,14 @@ export type GoogleJwtPayload = {
   email_verified: boolean;
   locale: string;
 };
+
+export interface ProductProps {
+  name: string;
+  genre: string;
+  production: string;
+  description: string;
+  image_name: string;
+  image_url: string;
+  price: number;
+  duration: string;
+}
