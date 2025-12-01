@@ -15,9 +15,8 @@ export const MyNavbar: FC = () => {
     >
       <div className="container-fluid d-flex align-items-center">
 
-        {/* Icons on the left */}
         <div className="d-flex flex-row align-items-center">
-          {["cart2", "house", "person"].map((icon, idx) => (
+          {["cart2", "house", "person"].map((icon) => (
             <i
               key={icon}
               className={`bi bi-${icon}`}
@@ -51,7 +50,6 @@ export const MyNavbar: FC = () => {
           </form>
         </div>
 
-        {/* Right side: Greeting + Logo */}
         <ul className="navbar-nav ms-auto d-flex flex-row align-items-center gap-4">
           <div className="ml-4">
             <Navbar.Text
