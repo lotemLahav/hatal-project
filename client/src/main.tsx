@@ -16,8 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <GoogleOAuthProvider clientId={CLIENT_ID}>
       <main className="text-center">
         <UserProvider>
-          {/* <RouterProvider router={router}></RouterProvider> */}
-          <ProductCard></ProductCard>
+          <RouterProvider router={router}></RouterProvider>
         </UserProvider>
       </main>
     </GoogleOAuthProvider>
