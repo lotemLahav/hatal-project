@@ -1,7 +1,7 @@
 export enum ProductGenre {
   DRAMA = 'drama',
-  COMEDY = 'editor',
-  TRAGEDY = 'viewer',
+  COMEDY = 'comedy',
+  TRAGEDY = 'tragedy',
   ROMANCE = 'romance',
   JUKEBOX = 'jukebox',
   FANTASY = 'fantasy',

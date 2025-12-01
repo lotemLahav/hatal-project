@@ -1,51 +1,12 @@
-import { FC, FormEventHandler } from "react";
+import { FC } from "react";
 import Form from "react-bootstrap/Form";
 import Navbar from "react-bootstrap/Navbar";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useUser } from "../../context/userContext/useUser";
-import { Button } from "react-bootstrap";
 
 export const MyNavbar: FC = () => {
   const { username } = useUser();
-
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    const formData = new FormData(e.currentTarget);
-    const file = formData.get('file') as File;
-
-    if (!file) {
-      console.error('No file selected');
-      return;
-    }
-
-    try {
-      // Upload to your NestJS backend
-      const uploadFormData = new FormData();
-      uploadFormData.append('file', file);
-
-      const response = await fetch('http://localhost:5000/photos/upload', {
-        method: 'POST',
-        body: uploadFormData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Upload failed');
-      }
-
-      const result = await response.json();
-
-      // Log the URL
-      console.log('Photo URL:', result.data.url);
-      console.log('Thumbnail URL:', result.data.thumbnail);
-      console.log('Public ID:', result.data.publicId);
-
-      // Optional: Reset form after successful upload
-      e.currentTarget.reset();
-
-    } catch (error) {
-      console.error('Error uploading photo:', error);
-    }
-  };
-
+  const imageUrl = "https://res.cloudinary.com/duzxokowe/image/upload/v1764603775/my-app-photos/cftpvqyw31vphn3x8uck.jpg";
 
   return (
     <>
@@ -119,7 +80,7 @@ export const MyNavbar: FC = () => {
               </Navbar.Text>
             </div>
             <img
-              src="logo.jpg"
+              src= {imageUrl}
               alt="logo"
               width="160"
               height="40"
@@ -128,19 +89,6 @@ export const MyNavbar: FC = () => {
 
         </div>
       </Navbar>
-
-      <Form onSubmit={onSubmit}>
-        <Form.Control
-          type="file"
-          required
-          name="file"
-
-        />
-
-        <Button type="submit" className="w-100 mb-3">
-          Submit
-        </Button>
-      </Form>
     </>
   );
 };

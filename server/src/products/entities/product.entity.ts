@@ -14,8 +14,8 @@ export class Product {
   @Column({ nullable: false, type: 'float' })
   price: number;
 
-  @Column({ nullable: false, type: 'numeric', precision: 10, scale: 2 })
-  duration: number;
+  @Column({ nullable: false, type: 'time' })
+  duration: string;
 
   @Column({
     type: 'enum',
