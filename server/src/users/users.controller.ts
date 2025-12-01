@@ -18,10 +18,7 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UsersController {
-  constructor(
-    private readonly usersService: UsersService,
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Post()
   async create(@Body() createUserDto: Partial<CreateUserDto>) {
@@ -50,7 +47,6 @@ export class UsersController {
   }
 
   @Post('login')
-  @UseGuards(AuthGuard('local'))
   async loginUser(@Body() body: { username: string; password: string }) {
     const { username, password } = body;
 
