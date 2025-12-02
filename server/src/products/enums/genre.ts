@@ -4,5 +4,4 @@ export enum ProductGenre {
   TRAGEDY = 'tragedy',
   ROMANCE = 'romance',
   JUKEBOX = 'jukebox',
-  FANTASY = 'fantasy',
 }
