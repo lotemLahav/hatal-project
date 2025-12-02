@@ -4,14 +4,16 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { FormEvent, useState } from "react";
-import { useAuthUser } from "../api/hooks/useAuthUser";
+import { useAuthUser } from "../api/hooks/user/useAuthUser";
 import Swal from "sweetalert2";
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import { GoogleJwtPayload, UserAuth } from '../utils/types';
+import { useNavigate } from 'react-router-dom';
 
 export const LogIn = () => {
     const { getUser } = useAuthUser();
+    const navigate = useNavigate();
 
     type FormValues = {
         username: string;
@@ -64,6 +66,7 @@ export const LogIn = () => {
         if (specificValidation(userData)) {
             try {
                 await getUser(userData);
+                navigate('/home');
             } catch (error: unknown) {
                 Swal.fire("There's a problem!", "Can't find user", "error");
                 console.error(`${error} couldn't find user.`);
@@ -79,6 +82,7 @@ export const LogIn = () => {
         }
         try {
             await getUser(newUser);
+            navigate('/home');
         } catch (error: unknown) {
             Swal.fire("theres a problem!", "cant find user", "error");
             console.error(`${error} couldn't find user.`);
@@ -138,7 +142,16 @@ export const LogIn = () => {
                             />
                         </div>
 
-                        <p className="mt-3 text-center"> Don't have an account? Sign up</p>
+                        <p className="mt-3 text-center">
+                            Don't have an account?{" "}
+                            <span
+                                style={{ color: "#0d6efd", cursor: "pointer", textDecoration: "underline" }}
+                                onClick={() => navigate("/signUp")}
+                            >
+                                Sign up
+                            </span>
+                        </p>
+
                     </Form>
                 </div>
 

@@ -8,13 +8,11 @@ import {
   Param,
   Delete,
   BadRequestException,
-  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { comparePasswords, encodePassword } from 'src/utils/bcrypt';
-import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UsersController {
@@ -84,7 +82,6 @@ export class UsersController {
     return this.usersService.remove(+id);
   }
 }
-function compareSync(password: string | undefined, password1: string) {
-  throw new Error('Function not implemented.');
-}
-
+// function compareSync(password: string | undefined, password1: string) {
+//   throw new Error('Function not implemented.');
+// }

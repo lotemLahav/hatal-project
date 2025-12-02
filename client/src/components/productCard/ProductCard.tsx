@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button, Card, ListGroup } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { ProductProps } from "../../utils/types";
 
 interface ProductCardProps {
@@ -10,20 +10,19 @@ export const ProductCard: FC<ProductCardProps> = ({ productProps }) => {
 
 
     return (<>
-        <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="jcs.jfif" />
+        <Card className="border border-dark rounded" style={{ width: '15rem', height:'24rem' }}>
+            <Card.Img variant="top" src={productProps.image_url} width={200} height={200}/>
             <Card.Body>
-                <Card.Title style={{ textAlign: 'left', color: "#1E3D5A" }}>{productProps.name}</Card.Title>
-                <Card.Text style={{ textAlign: 'left', color: "#F39C42" }}>
+                <Card.Title style={{ textAlign: 'left', color: "#1E3D5A", fontSize: '20px' }}>{productProps.name}</Card.Title>
+                <Card.Text style={{ textAlign: 'left', color: "#F39C42", fontSize: '15px' }}>
                     duration: {productProps.duration}
                 </Card.Text>
-            </Card.Body>
-            <ListGroup.Item>
-                <div style={{ textAlign: 'left', color: "#1E3D5A", fontSize: "40px" }}>{productProps.price}₪</div>
+                <hr style={{ border: "1px solid black", margin: "8px 0" }} />
+                <div style={{ textAlign: 'left', color: "#1E3D5A", fontSize: "20px" }}>{productProps.price}₪</div>
                 <Button type="submit" className="w-100 mb-3 rounded-pill">
                     Add To Cart
                 </Button>
-            </ListGroup.Item>
+                </Card.Body>
         </Card>
     </>)
 }

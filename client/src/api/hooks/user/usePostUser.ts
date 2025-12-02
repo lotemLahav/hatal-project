@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
-import api from "..";
-import { User } from "../../utils/types";
-import { useUser } from "../../context/userContext/useUser";
+import api from "../..";
+import { User } from "../../../utils/types";
+import { useUser } from "../../../context/userContext/useUser";
 
 export const usePostUser = () => {
   const [createdUser, setCreatedUser] = useState<User | null>(null);

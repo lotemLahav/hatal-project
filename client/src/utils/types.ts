@@ -31,3 +31,18 @@ export interface ProductProps {
   price: number;
   duration: string;
 }
+
+export enum Genre {
+  "drama",
+  "comedy",
+  "tragedy",
+  "romance",
+  "jukebox",
+}
+
+export enum Production {
+  "broadway",
+  "off broadway",
+  "west end",
+  "starkid",
+}
