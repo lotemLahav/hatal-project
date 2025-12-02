@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ProductGenre } from '../enums/genre';
-import { ProductProduction } from '../enums/location';
+import { ProductProduction } from '../enums/production';
 import { Order } from 'src/orders/entities/order.entity';
 
 @Entity({ name: 'products' })
