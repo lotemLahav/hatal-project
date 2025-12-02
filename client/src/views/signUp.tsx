@@ -8,9 +8,11 @@ import Swal from "sweetalert2";
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import { User, GoogleJwtPayload } from '../utils/types';
+import { useNavigate } from 'react-router-dom';
 
 export const SignUp = () => {
     const { postUser } = usePostUser();
+    const navigate = useNavigate();
 
     type FormValues = {
         username: string;
@@ -89,6 +91,7 @@ export const SignUp = () => {
         if (specificValidation(newUser)) {
             try {
                 await postUser(newUser);
+                navigate('/home');
             } catch (error: unknown) {
                 Swal.fire("theres a problem!", "cant create user", "error");
                 console.error(`${error} couldn't save user.`);
@@ -99,12 +102,13 @@ export const SignUp = () => {
     const onSuccess = async (credentialResponse: CredentialResponse) => {
         const decodedInfo = jwtDecode(credentialResponse.credential!);
         const userInfo = decodedInfo as GoogleJwtPayload;
-        const newUser : Partial<User> = {
+        const newUser: Partial<User> = {
             username: userInfo.name,
             email: userInfo.email
         }
         try {
             await postUser(newUser);
+            navigate('/home');
         } catch (error: unknown) {
             Swal.fire("theres a problem!", "cant create user", "error");
             console.error(`${error} couldn't save user.`);
@@ -199,7 +203,15 @@ export const SignUp = () => {
                             />
                         </div>
 
-                        <p>already have an account? sign in</p>
+                        <p className="mt-3 text-center">
+                            Already have an account?{" "}
+                            <span
+                                style={{ color: "#0d6efd", cursor: "pointer", textDecoration: "underline" }}
+                                onClick={() => navigate("/")}
+                            >
+                                log in
+                            </span>
+                        </p>
                     </Form>
                 </div>
                 <div className="col-md-6 order-md-1 order-1 px-5">

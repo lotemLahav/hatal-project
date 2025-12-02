@@ -11,7 +11,7 @@ export const ProductCard: FC<ProductCardProps> = ({ productProps }) => {
 
     return (<>
         <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="jcs.jfif" />
+            <Card.Img variant="top" src={productProps.image_url}/>
             <Card.Body>
                 <Card.Title style={{ textAlign: 'left', color: "#1E3D5A" }}>{productProps.name}</Card.Title>
                 <Card.Text style={{ textAlign: 'left', color: "#F39C42" }}>
