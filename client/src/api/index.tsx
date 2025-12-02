@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { User, UserAuth } from "../utils/types";
+import { ProductProps, User, UserAuth } from "../utils/types";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:5000/",
@@ -12,6 +12,12 @@ export default {
         axiosInstance.post(`users`, user),
       getUser: (auth: UserAuth): Promise<AxiosResponse<User>> =>
         axiosInstance.post(`users/login`, auth),
+    };
+  },
+  products() {
+    return {
+      getAllProducts: (): Promise<AxiosResponse<ProductProps[]>> =>
+        axiosInstance.get(`products`),
     };
   },
 };

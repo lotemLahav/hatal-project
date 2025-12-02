@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { FormEvent, useState } from "react";
-import { usePostUser } from "../api/hooks/usePostUser";
+import { usePostUser } from "../api/hooks/user/usePostUser";
 import Swal from "sweetalert2";
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
