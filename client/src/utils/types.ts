@@ -33,16 +33,16 @@ export interface ProductProps {
 }
 
 export enum Genre {
-  "Drama",
-  "Comedy",
-  "Tragedy",
-  "Romance",
-  "Jukebox",
+  "drama",
+  "comedy",
+  "tragedy",
+  "romance",
+  "jukebox",
 }
 
 export enum Production {
-  "Broadway",
-  "Off Broadway",
-  "West End",
-  "Starkid",
+  "broadway",
+  "off broadway",
+  "west end",
+  "starkid",
 }

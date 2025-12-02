@@ -21,7 +21,7 @@ export default {
       getAllProductsByGenre: (genre: Genre): Promise<AxiosResponse<ProductProps[]>> =>
         axiosInstance.get(`products/genre/${genre}`),
       getAllProductsByProduction: (production: Production): Promise<AxiosResponse<ProductProps[]>> =>
-        axiosInstance.get(`products/product/${production}`),
+        axiosInstance.get(`products/production/${production}`),
     };
   },
 };

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { ProductCard } from "../productCard/ProductCard";
 import { Genre, Production, ProductProps } from "../../utils/types";
 import { useGetProductsByGenre } from "../../api/hooks/product/useGetProductsByGenre";
@@ -9,24 +9,29 @@ interface CardProps { productProps: ProductProps[]; }
 
 export const Gallery: FC<CardProps> = ({ productProps }) => {
     const [products, setProducts] = useState<ProductProps[]>(productProps);
-    const { fetchProductsByProduction } = useGetProductsByProduction;
-    const { fetchProductsByGenre } = useGetProductsByGenre;
+    const { fetchProductsByGenre } = useGetProductsByGenre();
+    const { fetchProductsByProduction } = useGetProductsByProduction();
+
+    useEffect(() => {
+        if (productProps && productProps.length > 0) {
+            setProducts(productProps);
+        }
+    }, [productProps]);
 
     const handleClick = async (category: string) => {
-        if (Object.keys(Production).includes(category)) {
-            try {
-                setProducts(await fetchProductsByProduction(category));
-            } catch (error: unknown) {
-                Swal.fire("theres a problem!", "cant load products", "error");
-                console.error(`${error} cant load products.`);
+        try {
+            if (Object.values(Production).includes(category)) {
+                const fetched = await fetchProductsByProduction(category);
+                setProducts(fetched);
+            } else if (Object.values(Genre).includes(category)) {
+                const fetched = await fetchProductsByGenre(category);
+                setProducts(fetched);
+            } else {
+                console.warn("Category not found:", category);
             }
-        } else if (Object.keys(Genre).includes(category)) {
-            try {
-                setProducts(await fetchProductsByGenre(category));
-            } catch (error: unknown) {
-                Swal.fire("theres a problem!", "cant load products", "error");
-                console.error(`${error} cant load products.`);
-            }
+        } catch (error) {
+            Swal.fire("There's a problem!", "Can't load products", "error");
+            console.error(error);
         }
     }
 
@@ -44,15 +49,15 @@ export const Gallery: FC<CardProps> = ({ productProps }) => {
 
                     <ul className="nav nav-pills flex-column mb-auto text-center">
                         {[
-                            "Drama",
-                            "Comedy",
-                            "Tragedy",
-                            "Romance",
-                            "Jukebox",
-                            "Broadway",
-                            "Off Broadway",
-                            "West End",
-                            "Starkid",
+                            "drama",
+                            "comedy",
+                            "tragedy",
+                            "romance",
+                            "jukebox",
+                            "broadway",
+                            "off broadway",
+                            "west end",
+                            "starkid",
                         ].map((category, i) => (
                             <li key={i} className="nav-item mb-2 text-center">
                                 <button
@@ -70,7 +75,7 @@ export const Gallery: FC<CardProps> = ({ productProps }) => {
 
                 {/* Gallery content */}
                 <div className="content d-flex flex-wrap p-4 flex-grow-1">
-                    {productProps.map((product, i) => (
+                    {products.map((product, i) => (
                         <div key={i} className="img-box p-3">
                             <ProductCard productProps={product} />
                         </div>

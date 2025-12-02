@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Genre, ProductProps } from "../../../utils/types";
 import api from "../..";
 import Swal from "sweetalert2";
 
-export const useGetProductsByGenre = (genre: Genre) => {
+export const useGetProductsByGenre = () => {
   const [products, setProducts] = useState<ProductProps[]>([]);
 
-  useEffect(() => {
-    const fetchProductsByGenre = async () => {
-      try {
-        setProducts((await api.products().getAllProductsByGenre(genre)).data);
-      } catch (error: unknown) {
-        Swal.fire("Oops", "cannot show gallery", "error");
-      }
-    };
+  const fetchProductsByGenre = async (genre: Genre | string) => {
+    try {
+      const response = await api.products().getAllProductsByGenre(genre as Genre);
+      setProducts(response.data);
+      return response.data;
+    } catch (error: unknown) {
+      Swal.fire("Oops", "cannot show gallery", "error");
+      throw error;
+    }
+  };
 
-    fetchProductsByGenre();
-  }, []);
-
-  return products;
+  return { products, fetchProductsByGenre };
 };
