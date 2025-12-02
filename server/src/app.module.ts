@@ -7,12 +7,20 @@ import { join } from 'path';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { PhotosModule } from './photos/photo.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
+      imports: [
+        ConfigModule,
+        ConfigModule.forRoot({
+          isGlobal: true,
+        }),
+        PhotosModule,
+      ],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
@@ -28,6 +36,7 @@ import { OrdersModule } from './orders/orders.module';
     UsersModule,
     ProductsModule,
     OrdersModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
