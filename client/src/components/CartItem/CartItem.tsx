@@ -1,28 +1,50 @@
 import { FC } from "react";
-import { Button, Card } from "react-bootstrap";
 import { ProductProps } from "../../utils/types";
 
-interface ProductCardProps {
-  productProps: ProductProps;
+interface CartItemProps {
+    cartItemProps: ProductProps;
 }
 
-export const ProductCard: FC<ProductCardProps> = ({ productProps }) => {
+export const CartItem: FC<CartItemProps> = ({ cartItemProps }) => {
 
+    return (
+            <div className="card mb-3 position-relative overflow-hidden p-0" style={{ width: "300px", height: "100px" }}>
+                <button
+                    className="position-absolute border-0 bg-transparent p-0"
+                    style={{
+                        top: "5px",
+                        right: "5px",
+                        fontSize: "20px",
+                        lineHeight: "1",
+                        color: "#999",
+                        zIndex: 10
+                    }}
+                    aria-label="Close"
+                >
+                    ×
+                </button>
 
-    return (<>
-        <Card className="border border-dark rounded" style={{ width: '15rem', height:'24rem' }}>
-            <Card.Img variant="top" src={productProps.image_url} width={200} height={200}/>
-            <Card.Body>
-                <Card.Title style={{ textAlign: 'left', color: "#1E3D5A", fontSize: '20px' }}>{productProps.name}</Card.Title>
-                <Card.Text style={{ textAlign: 'left', color: "#F39C42", fontSize: '15px' }}>
-                    duration: {productProps.duration}
-                </Card.Text>
-                <hr style={{ border: "1px solid black", margin: "8px 0" }} />
-                <div style={{ textAlign: 'left', color: "#1E3D5A", fontSize: "20px" }}>{productProps.price}₪</div>
-                <Button type="submit" className="w-100 mb-3 rounded-pill">
-                    Add To Cart
-                </Button>
-                </Card.Body>
-        </Card>
-    </>)
-}
+                <div className="row g-0 h-100 m-0">
+                    <div className="col-9 p-2 d-flex flex-column justify-content-end align-items-end h-100">
+                        <h5 className="card-text mb-1" style={{ color: "#1E3D5A" }}>{cartItemProps.name}</h5>
+                        <h5 className="card-text mb-1">
+                            <strong style={{ color: "#F39C42" }}>{cartItemProps.price}₪</strong>
+                        </h5>
+                    </div>
+
+                    <div className="col-3 p-0 h-100">
+                        <img
+                            src={cartItemProps.image_url}
+                            className="rounded-end"
+                            alt="hi"
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                display: "block"
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+};

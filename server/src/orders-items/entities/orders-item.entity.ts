@@ -15,9 +15,6 @@ export class OrdersItem {
     @JoinColumn({ name: "product_id" })
     product: Product;
 
-    @Column({ nullable: false })
-    quantity: number;
-
     @Column({ nullable: false, type: 'float' })
     price: number;
 }
