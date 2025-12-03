@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useUser } from "../../context/userContext/useUser";
 import { useCart } from "../../context/CartContext/useCart";
-import { MultipleCartItems } from "../MultipleCartItem";
+import { SmallCart } from "../SmallCart";
 
 export const MyNavbar: FC = () => {
   const { username } = useUser();
@@ -66,7 +66,7 @@ export const MyNavbar: FC = () => {
                             zIndex: 10,
                             maxWidth: "90vw"
                           }}>
-                          <MultipleCartItems productProps={cartProducts} />
+                          <SmallCart productProps={cartProducts} />
                         </div>
                       ) : (
                         <div className="position-absolute bg-light border rounded p-2 shadow"
