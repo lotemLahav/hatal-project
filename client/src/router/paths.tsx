@@ -2,6 +2,7 @@ import { LogIn } from "../views/logIn";
 import { SignUp } from "../views/signUp";
 import Layout from "../views/Layout";
 import { Home } from "../views/Home";
+import { Checkout } from "../views/Checkout";
 
 export interface Page {
   path: string;
@@ -26,6 +27,12 @@ export const routes: Page[] = [
     path: "/signUp",
     element: <SignUp />,
     name: "signUp",
+    isShown: true,
+  },
+  {
+    path: "/checkout",
+    element: <Checkout />,
+    name: "checkout",
     isShown: true,
   },
 ];

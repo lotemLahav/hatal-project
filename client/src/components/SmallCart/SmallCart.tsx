@@ -2,10 +2,13 @@ import { FC } from "react";
 import { MultipleCartItems } from "../MultipleCartItem";
 import { ProductProps } from "../../utils/types";
 import { Button } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
 
 interface CardProps { productProps: ProductProps[]; }
 
 export const SmallCart: FC<CardProps> = ({ productProps }) => {
+    const navigate = useNavigate();
+
     return (
         <>
             <div>
@@ -23,7 +26,7 @@ export const SmallCart: FC<CardProps> = ({ productProps }) => {
                     <h5 style={{ color: "#F39C42" }}>{productProps.reduce((currentValue, item) => item.price + currentValue, 0)}₪</h5>
                     <p>:total price</p>
                 </div>
-                <Button type="submit"  className="w-100 mb-3 rounded-pill">
+                <Button type="submit" onClick={() => navigate('/checkout')} className="w-100 mb-3 rounded-pill">
                     Continue To Payment
                 </Button>
             </div>
