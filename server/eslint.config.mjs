@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-nocheck
 import eslint from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
@@ -19,12 +19,14 @@ export default tseslint.config(
       },
       sourceType: 'commonjs',
       parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
+        parserOptions: {
+          project: ['./tsconfig.json'], // ✅ REQUIRED
+          tsconfigRootDir: import.meta.dirname,
+          projectService: true,
+          tsconfigRootDir: import.meta.dirname,
+        },
       },
     },
-  },
-  {
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',

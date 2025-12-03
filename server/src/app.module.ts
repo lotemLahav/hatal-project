@@ -9,6 +9,7 @@ import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { PhotosModule } from './photos/photo.module';
+import { OrdersItemsModule } from './orders-items/orders-items.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { PhotosModule } from './photos/photo.module';
     ProductsModule,
     OrdersModule,
     CloudinaryModule,
+    OrdersItemsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

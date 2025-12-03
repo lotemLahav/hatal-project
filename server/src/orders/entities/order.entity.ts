@@ -3,20 +3,21 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
+  JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { OrderStatus } from '../enums/status';
-import { Product } from 'src/products/entities/product.entity';
+import { OrdersItem } from 'src/orders-items/entities/orders-item.entity';
 
 @Entity({ name: 'orders' })
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.orders)
+  @JoinColumn({ name: "user_id" })
   user: User;
 
   @CreateDateColumn({
@@ -37,7 +38,6 @@ export class Order {
   @Column({ nullable: false, type: 'float' })
   delivery_price: number;
 
-  @ManyToMany(() => Product, (product) => product.orders)
-  @JoinTable({ name: 'orders_products' })
-  products: Product[];
+  @OneToMany(() => OrdersItem, (ordersItems) => ordersItems.order)
+  ordersItems: OrdersItem[];
 }
