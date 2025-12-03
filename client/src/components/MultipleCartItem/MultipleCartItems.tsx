@@ -6,12 +6,12 @@ interface ProductCardProps {
     productProps: ProductProps[];
 }
 
-export const ProductCard: FC<ProductCardProps> = ({ productProps }) => {
+export const MultipleCartItems: FC<ProductCardProps> = ({ productProps }) => {
 
     return (<>
-        <div className="content d-flex flex-column p-4 flex-grow-1">
+        <div className="content d-flex flex-column">
             {productProps.map((product, i) => (
-                <div key={i} className="img-box p-3">
+                <div key={i} className="img-box">
                     <CartItem cartItemProps={product} />
                 </div>
             ))}

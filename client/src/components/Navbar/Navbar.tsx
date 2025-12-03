@@ -4,6 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useUser } from "../../context/userContext/useUser";
 import { useCart } from "../../context/CartContext/useCart";
+import { MultipleCartItems } from "../MultipleCartItem";
 
 export const MyNavbar: FC = () => {
   const { username } = useUser();
@@ -23,52 +24,63 @@ export const MyNavbar: FC = () => {
           <div className="d-flex flex-row align-items-center">
             {["cart2", "house", "person"].map((icon) =>
               icon === "cart2" ? (
-
                 <div
                   key={icon}
-                  className="d-flex align-items-center position-relative"
+                  className="position-relative"
                   onMouseEnter={() => setHoverCart(true)}
                   onMouseLeave={() => setHoverCart(false)}
+                  style={{ marginLeft: "12px", display: "inline-block", cursor: "pointer" }}
                 >
-                  <i
-                    className="bi bi-cart2"
-                    style={{ fontSize: "24px", cursor: "pointer", marginLeft: "12px" }}
-                  >
-                    <span
-                      className="badge rounded-circle bg-danger"
-                      style={{
-                        width: "15px",
-                        height: "15px",
-                        marginLeft: "12px",
-                        fontSize: "10px",
-                        position: "absolute",
-                        bottom: "0px",
-                        right: "0px",
-                      }}
-                    >
-                      {cartProducts?.length || 0}
-                    </span>
-                  </i>
+                  {/* The cart icon */}
+                  <i className="bi bi-cart2" style={{ fontSize: "24px" }} />
 
+                  {/* The badge */}
+                  <span
+                    className="badge rounded-circle bg-danger"
+                    style={{
+                      width: "15px",
+                      height: "15px",
+                      fontSize: "10px",
+                      position: "absolute",
+                      bottom: "0px",
+                      right: "0px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {cartProducts?.length || 0}
+                  </span>
+
+                  {/* The hover popup */}
                   {hoverCart && (
                     <div
                       className="position-absolute bg-light border rounded p-2"
                       style={{ top: "30px", left: "-50px", minWidth: "150px", zIndex: 10 }}
                     >
                       {cartProducts && cartProducts.length > 0 ? (
-                        <ul className="list-unstyled mb-0">
-                          {cartProducts.map((p, i) => (
-                            <li key={i}>
-                              {p.name} - {p.price}₪
-                            </li>
-                          ))}
-                        </ul>
+                        <div className="position-absolute bg-light border rounded p-2 shadow"
+                          style={{
+                            transform: "translateX(-20%)",
+                            minWidth: "180px",
+                            zIndex: 10,
+                            maxWidth: "90vw"
+                          }}>
+                          <MultipleCartItems productProps={cartProducts} />
+                        </div>
                       ) : (
-                        <div>Your cart is empty</div>
+                        <div className="position-absolute bg-light border rounded p-2 shadow"
+                          style={{
+                            transform: "translateX(-20%)",
+                            minWidth: "180px",
+                            zIndex: 10,
+                            maxWidth: "90vw"
+                          }}>Your cart is empty</div>
                       )}
                     </div>
                   )}
                 </div>
+
               ) : (
                 <i
                   key={icon}
