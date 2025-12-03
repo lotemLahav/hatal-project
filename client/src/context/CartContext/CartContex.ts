@@ -3,7 +3,7 @@ import { ProductProps } from "../../utils/types";
 
 export interface CartContextType {
   cartProducts: ProductProps[] | null;
-  cartProductsCallback: (cartProducts: ProductProps[]) => () => void;
+  cartProductsCallback: (cartProducts: ProductProps[]) => void;
   resetCartProducts: () => void;
 }
 

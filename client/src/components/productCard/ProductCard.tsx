@@ -12,11 +12,9 @@ export const ProductCard: FC<ProductCardProps> = ({ productProps }) => {
 
     const handleSubmit = () => {
         if(cartProducts){
-            cartProducts.push(productProps);
-            cartProductsCallback(cartProducts);
+            cartProductsCallback([...cartProducts, productProps]);
         } else{
-            const productArray: ProductProps[] = [productProps];
-            cartProductsCallback(productArray);
+            cartProductsCallback([productProps]);
         }
     };
 
