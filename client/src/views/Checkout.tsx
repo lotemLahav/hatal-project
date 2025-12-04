@@ -2,14 +2,61 @@ import { Button, Card } from "react-bootstrap";
 import { MultipleCartItems } from "../components/MultipleCartItem";
 import { useCart } from "../context/CartContext/useCart";
 import { useNavigate } from 'react-router-dom';
+import { usePostOrder } from "../api/hooks/order/usePostOrder";
+import { usePostOrderItem } from "../api/hooks/orderItem/usePostOrderItem";
+import { useUser } from "../context/userContext";
+import { FullOrder, Order, OrderItem } from "../utils/types";
+import Swal from "sweetalert2";
 
 export const Checkout = () => {
-    const { cartProducts } = useCart();
+    const { cartProducts, cartProductsCallback } = useCart();
+    const { username } = useUser();
     const servicePrice = 10;
     const navigate = useNavigate();
+    const { postOrder } = usePostOrder();
+    const { postOrderItem } = usePostOrderItem();
 
-    const handleClick = () => {
-        
+    const totalPrice = () => {
+        if (cartProducts) {
+            return cartProducts?.reduce((currentValue, item) => item.price + currentValue, 0) + servicePrice;
+        } else {
+            return servicePrice;
+        }
+    }
+
+    const handleClick = async () => {
+        const order: Order = {
+            created_at: new Date(),
+            price: totalPrice(),
+            service_price: servicePrice,
+            username: username as string
+        }
+
+        try {
+            const newOrder: FullOrder = await postOrder(order);  // ✅ Store the returned order
+
+            // ✅ Use newOrder.id instead of createdOrder.id
+            for (const product of cartProducts ?? []) {
+                const item: OrderItem = {
+                    order: newOrder.id,   // ✅ Use the value directly
+                    product: product.id,
+                    price: product.price,
+                };
+
+                try {
+                    await postOrderItem(item);
+                } catch (error) {
+                    Swal.fire("There's a problem!", "Can't create OrderItem", "error");
+                    console.error(`${error} couldn't create OrderItem.`);
+                }
+            }
+            cartProductsCallback([]);
+            // Navigate after all items are
+
+        } catch (error: unknown) {
+            Swal.fire("There's a problem!", "Can't create Order", "error");
+            console.error(`${error} couldn't create Order.`);
+        }
     }
 
     return (
@@ -31,8 +78,7 @@ export const Checkout = () => {
                             </Card.Title>
                             <hr className="border border-2 w-100" />
                             <Card.Title className="d-flex flex-row justify-content-between" >
-                                <p style={{ color: "#F39C42" }}>{!cartProducts ? (servicePrice) : (
-                                    cartProducts?.reduce((currentValue, item) => item.price + currentValue, 0) + servicePrice)}₪</p>
+                                <p style={{ color: "#F39C42" }}>{totalPrice()}₪</p>
                                 <p style={{ color: "#1E3D5A" }}>:Total Price</p>
                             </Card.Title>
                             <div className="d-flex gap-2">

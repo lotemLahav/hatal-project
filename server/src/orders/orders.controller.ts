@@ -1,15 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { CreateOrderDto } from './dto/create-order.dto';
+import { CreateOrderDto, PartialCreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { UsersService } from 'src/users/users.service';
+import { OrderStatus } from './enums/status';
 
 @Controller('orders')
 export class OrdersController {
-  constructor(private readonly ordersService: OrdersService) {}
+  constructor(private readonly ordersService: OrdersService,
+    private readonly usersService: UsersService) { }
+
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
+  async create(@Body() createOrderDto: PartialCreateOrderDto) {
+    const user = await this.usersService.findOneByUsername(createOrderDto.username);
+    if (user) {
+      const { username, ...orderData } = createOrderDto;  // ✅ Destructure to remove username
+      const order = {
+        ...orderData,
+        status: OrderStatus.WAITING_FOR_APPROVAL,
+        user: { id: user.id }  // ✅ Pass user object with id
+      };
+      return await this.ordersService.create(order);
+    } else {
+      throw new NotFoundException;
+    }
   }
 
   @Get()

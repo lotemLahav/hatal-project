@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Genre, Order, OrderItem, Production, ProductProps, User, UserAuth } from "../utils/types";
+import { FullOrder, Genre, Order, OrderItem, Production, ProductProps, User, UserAuth } from "../utils/types";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:5000/",
@@ -32,7 +32,7 @@ export default {
   },
   orders() {
     return {
-      create: (order: Order): Promise<AxiosResponse<Order>> =>
+      create: (order: Order): Promise<AxiosResponse<FullOrder>> =>
         axiosInstance.post(`orders`, order),
     };
   },

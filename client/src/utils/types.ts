@@ -56,15 +56,23 @@ export enum OrderStatus {
 }
 
 export interface Order {
-  userId: number;
-  createdAt: Date;
-  orderStatus: OrderStatus;
+  created_at: Date;
   price: number;
-  servicePrie: number;
+  service_price: number;
+  username: string;
+}
+
+export interface FullOrder {
+  id: number;
+  userId: string;
+  created_at: Date;
+  status: OrderStatus;
+  price: number;
+  service_price: number;
 }
 
 export interface OrderItem {
-  orderId: number;
-  productId: number;
+  order: number;
+  product: number;
   price: number;
 }
