@@ -36,7 +36,7 @@ export class Order {
   price: number;
 
   @Column({ nullable: false, type: 'float' })
-  delivery_price: number;
+  service_price: number;
 
   @OneToMany(() => OrdersItem, (ordersItems) => ordersItems.order)
   ordersItems: OrdersItem[];

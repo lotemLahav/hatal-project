@@ -4,7 +4,7 @@ import { useCart } from "../context/CartContext/useCart";
 
 export const Checkout = () => {
     const { cartProducts } = useCart();
-    const deliveryPrice = 10;
+    const servicePrice = 10;
 
     return (
         <>
@@ -20,18 +20,18 @@ export const Checkout = () => {
                             </Card.Title>
                             <hr className="border border-2 w-100" />
                             <Card.Title className="d-flex flex-row justify-content-between" >
-                                <p style={{ color: "#F39C42" }}>{deliveryPrice}₪</p>
-                                <p style={{ color: "#1E3D5A" }}>:Delivery Price</p>
+                                <p style={{ color: "#F39C42" }}>{servicePrice}₪</p>
+                                <p style={{ color: "#1E3D5A" }}>:Service Price</p>
                             </Card.Title>
                             <hr className="border border-2 w-100" />
                             <Card.Title className="d-flex flex-row justify-content-between" >
-                                <p style={{ color: "#F39C42" }}>{!cartProducts ? (deliveryPrice) : (
-                                    cartProducts?.reduce((currentValue, item) => item.price + currentValue, 0) + deliveryPrice)}₪</p>
+                                <p style={{ color: "#F39C42" }}>{!cartProducts ? (servicePrice) : (
+                                    cartProducts?.reduce((currentValue, item) => item.price + currentValue, 0) + servicePrice)}₪</p>
                                 <p style={{ color: "#1E3D5A" }}>:Total Price</p>
                             </Card.Title>
-                            <div className="d-flex flex-row gap-2 w-100 mt-3">
-                                <Button type="submit" className="flex-fill text-nowrap w-10%">Payment</Button>
-                                <Button type="button" className="flex-fill btn-light border border-primary text-nowrap">Continue Shopping</Button>
+                            <div className="d-flex gap-2">
+                                <Button className="flex-fill" size="sm">Payment</Button>
+                                <Button className="flex-fill" size="sm">Continue Shopping</Button>
                             </div>
 
 
