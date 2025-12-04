@@ -22,6 +22,7 @@ export type GoogleJwtPayload = {
 };
 
 export interface ProductProps {
+  id: number;
   name: string;
   genre: string;
   production: string;
@@ -45,4 +46,25 @@ export enum Production {
   "off broadway",
   "west end",
   "starkid",
+}
+
+export enum OrderStatus {
+  'waiting for approval',
+  'in the making',
+  'on the way',
+  'closed',
+}
+
+export interface Order {
+  userId: number;
+  createdAt: Date;
+  orderStatus: OrderStatus;
+  price: number;
+  servicePrie: number;
+}
+
+export interface OrderItem {
+  orderId: number;
+  productId: number;
+  price: number;
 }

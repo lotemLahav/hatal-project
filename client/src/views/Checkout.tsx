@@ -1,10 +1,16 @@
 import { Button, Card } from "react-bootstrap";
 import { MultipleCartItems } from "../components/MultipleCartItem";
 import { useCart } from "../context/CartContext/useCart";
+import { useNavigate } from 'react-router-dom';
 
 export const Checkout = () => {
     const { cartProducts } = useCart();
     const servicePrice = 10;
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        
+    }
 
     return (
         <>
@@ -30,8 +36,8 @@ export const Checkout = () => {
                                 <p style={{ color: "#1E3D5A" }}>:Total Price</p>
                             </Card.Title>
                             <div className="d-flex gap-2">
-                                <Button className="flex-fill" size="sm">Payment</Button>
-                                <Button className="flex-fill" size="sm">Continue Shopping</Button>
+                                <Button className="flex-fill" onClick={handleClick} size="sm">Payment</Button>
+                                <Button className="flex-fill" onClick={() => navigate('/home')} size="sm">Continue Shopping</Button>
                             </div>
 
 
