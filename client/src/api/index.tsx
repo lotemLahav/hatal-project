@@ -28,12 +28,16 @@ export default {
     return {
       create: (orderItem: OrderItem): Promise<AxiosResponse<OrderItem>> =>
         axiosInstance.post(`orders-items`, orderItem),
+      getAllOrderItemsByOrder: (orderId: number): Promise<AxiosResponse<ProductProps[]>> =>
+        axiosInstance.get(`orders-items/${orderId}`),
     };
   },
   orders() {
     return {
       create: (order: Order): Promise<AxiosResponse<FullOrder>> =>
         axiosInstance.post(`orders`, order),
+      getAllOrdersByUser: (username: string): Promise<AxiosResponse<FullOrder[]>> =>
+        axiosInstance.get(`orders/${username}`),
     };
   },
 };

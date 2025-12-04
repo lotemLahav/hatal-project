@@ -62,10 +62,14 @@ export const Checkout = () => {
     return (
         <>
             <div className="container-fluid p-0" style={{ height: "100vh", padding: "2rem" }}>
-                <div className="d-flex flex-row gap-4 align-items-start w-100 h-100">
+                <div style={{ textAlign: "left", padding: '1rem' }}>
+                    <p className="m-0" style={{ fontSize: "4rem", color: "#1E3D5A" }}>Checkout</p>
+                    <h5 style={{ color: "#F39C42" }}>number of items {cartProducts?.length}</h5>
+                </div>
+                <hr className="border border-2 w-100" />
 
-                    {/* RIGHT SIDE — Card */}
-                    <Card style={{ width: "40%", alignSelf: "center", marginRight: "15%" }}>
+                <div className="d-flex justify-content-around">
+                    <Card style={{ width: "40%", alignSelf: "center" }}>
                         <Card.Body>
                             <Card.Title className="d-flex flex-row justify-content-between" >
                                 <p style={{ color: "#F39C42" }}>{cartProducts?.reduce((currentValue, item) => item.price + currentValue, 0)}₪</p>
@@ -81,23 +85,16 @@ export const Checkout = () => {
                                 <p style={{ color: "#F39C42" }}>{totalPrice()}₪</p>
                                 <p style={{ color: "#1E3D5A" }}>:Total Price</p>
                             </Card.Title>
-                            <div className="d-flex gap-2">
-                                <Button className="flex-fill" onClick={handleClick} size="sm">Payment</Button>
-                                <Button className="flex-fill" onClick={() => navigate('/home')} size="sm">Continue Shopping</Button>
+                            <div className="d-flex gap-2 justify-content-between">
+                                <Button variant="primary" onClick={handleClick} size="sm">Countinue To Payment</Button>
+                                <Button variant="light" className="border border-primary" onClick={() => navigate('/home')} size="sm">Continue Shopping</Button>
                             </div>
 
 
                         </Card.Body>
                     </Card>
 
-                    {/* LEFT COLUMN — Checkout + Cart Items */}
-                    <div className="d-flex flex-column flex-grow-1 align-items-end p-2">
-                        <p className="m-0" style={{ fontSize: "4rem", color: "#1E3D5A" }}>Checkout</p>
-                        <h5 style={{ color: "#F39C42" }}>number of items {cartProducts?.length}</h5>
-                        <hr className="border border-2 w-100" />
-                        <MultipleCartItems productProps={cartProducts} />
-                    </div>
-
+                    <MultipleCartItems productProps={cartProducts} />
                 </div>
             </div>
 

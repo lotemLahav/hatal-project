@@ -49,10 +49,10 @@ export enum Production {
 }
 
 export enum OrderStatus {
-  'waiting for approval',
-  'in the making',
-  'on the way',
-  'closed',
+  WAITING_FOR_APPROVAL = 'waiting for approval',
+  IN_THE_MAKING = 'in the making',
+  ON_THE_WAY = 'on the way',
+  CLOSED = 'closed',
 }
 
 export interface Order {
