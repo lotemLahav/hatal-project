@@ -19,5 +19,5 @@ export class User {
   phone: number;
 
   @OneToMany(() => Order, (order) => order.user)
-  order: Order;
+  orders: Order[];
 }

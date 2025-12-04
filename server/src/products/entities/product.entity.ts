@@ -1,7 +1,7 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ProductGenre } from '../enums/genre';
 import { ProductProduction } from '../enums/production';
-import { Order } from 'src/orders/entities/order.entity';
+import { OrdersItem } from 'src/orders-items/entities/orders-item.entity';
 
 @Entity({ name: 'products' })
 export class Product {
@@ -38,6 +38,6 @@ export class Product {
   @Column({ type: 'text' })
   image_url: string;
 
-  @ManyToMany(() => Order, (order) => order.products, { cascade: true })
-  orders: Order[];
+  @OneToMany(() => OrdersItem, (ordersItems) => ordersItems.product)
+  ordersItems: OrdersItem[];
 }

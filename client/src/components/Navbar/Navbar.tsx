@@ -1,12 +1,16 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Navbar from "react-bootstrap/Navbar";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useUser } from "../../context/userContext/useUser";
+import { useCart } from "../../context/CartContext/useCart";
+import { SmallCart } from "../SmallCart";
 
 export const MyNavbar: FC = () => {
   const { username } = useUser();
   const imageUrl = "https://res.cloudinary.com/duzxokowe/image/upload/v1764603775/my-app-photos/cftpvqyw31vphn3x8uck.jpg";
+  const { cartProducts } = useCart();
+  const [hoverCart, setHoverCart] = useState(false);
 
   return (
     <>
@@ -18,21 +22,82 @@ export const MyNavbar: FC = () => {
         <div className="container-fluid d-flex align-items-center">
 
           <div className="d-flex flex-row align-items-center">
-            {["cart2", "house", "person"].map((icon) => (
-              <i
-                key={icon}
-                className={`bi bi-${icon}`}
-                style={{
-                  fontSize: "18px",
-                  marginLeft: "12px",
-                  color: "#1E3D5A",
-                  cursor: "pointer",
-                  transition: "color 0.3s"
-                }}
-                onMouseEnter={e => (e.currentTarget.style.color = "#F39C42")}
-                onMouseLeave={e => (e.currentTarget.style.color = "#1E3D5A")}
-              ></i>
-            ))}
+            {["cart2", "house", "person"].map((icon) =>
+              icon === "cart2" ? (
+                <div
+                  key={icon}
+                  className="position-relative"
+                  onMouseEnter={() => setHoverCart(true)}
+                  onMouseLeave={() => setHoverCart(false)}
+                  style={{ marginLeft: "12px", display: "inline-block", cursor: "pointer" }}
+                >
+                  {/* The cart icon */}
+                  <i className="bi bi-cart2" style={{ fontSize: "24px" }} />
+
+                  {/* The badge */}
+                  <span
+                    className="badge rounded-circle bg-danger"
+                    style={{
+                      width: "15px",
+                      height: "15px",
+                      fontSize: "10px",
+                      position: "absolute",
+                      bottom: "0px",
+                      right: "0px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {cartProducts?.length || 0}
+                  </span>
+
+                  {/* The hover popup */}
+                  {hoverCart && (
+                    <div
+                      className="position-absolute bg-light border rounded p-2"
+                      style={{ top: "30px", left: "-50px", minWidth: "150px", zIndex: 10 }}
+                    >
+                      {cartProducts && cartProducts.length > 0 ? (
+                        <div className="position-absolute bg-light border rounded p-2 shadow"
+                          style={{
+                            transform: "translateX(-20%)",
+                            minWidth: "180px",
+                            zIndex: 10,
+                            maxWidth: "90vw"
+                          }}>
+                          <SmallCart productProps={cartProducts} />
+                        </div>
+                      ) : (
+                        <div className="position-absolute bg-light border rounded p-2 shadow"
+                          style={{
+                            transform: "translateX(-20%)",
+                            minWidth: "180px",
+                            zIndex: 10,
+                            maxWidth: "90vw"
+                          }}>Your cart is empty</div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+              ) : (
+                <i
+                  key={icon}
+                  className={`bi bi-${icon} position-relative`}
+                  style={{
+                    fontSize: "24px",
+                    marginLeft: "12px",
+                    color: "#1E3D5A",
+                    cursor: "pointer",
+                    transition: "color 0.3s",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#F39C42")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#1E3D5A")}
+                ></i>
+              )
+            )}
+
 
             <form className="d-flex ms-4">
               <button
@@ -80,7 +145,7 @@ export const MyNavbar: FC = () => {
               </Navbar.Text>
             </div>
             <img
-              src= {imageUrl}
+              src={imageUrl}
               alt="logo"
               width="160"
               height="40"
@@ -88,7 +153,7 @@ export const MyNavbar: FC = () => {
           </ul>
 
         </div>
-      </Navbar>
+      </Navbar >
     </>
   );
 };
