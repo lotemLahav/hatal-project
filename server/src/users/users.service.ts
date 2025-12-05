@@ -5,17 +5,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private authService: AuthService
   ) {}
 
-  create(createUserDto: Partial<CreateUserDto>) {
+  async create(createUserDto: Partial<CreateUserDto>) {
     const user = this.usersRepository.create(createUserDto);
-    return this.usersRepository.save(user);
+    const newUser = this.usersRepository.save(user);
+    const token = await this.authService.login(newUser);
+    return {...newUser, token};
   }
 
   findAll() {

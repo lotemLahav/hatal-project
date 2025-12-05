@@ -6,7 +6,7 @@ import { useUser } from "../../../context/userContext/useUser";
 
 export const usePostUser = () => {
   const [createdUser, setCreatedUser] = useState<User | null>(null);
-  const { userCallback } = useUser();
+  const { userCallback, tokenCallback } = useUser();
 
   const postUser = async (userData: Partial<User>) => {
     try {
@@ -14,6 +14,7 @@ export const usePostUser = () => {
 
       setCreatedUser(res.data);
       userCallback(res.data.username)(); 
+      tokenCallback(res.data.token)();
 
       return res.data;
     } catch (error) {

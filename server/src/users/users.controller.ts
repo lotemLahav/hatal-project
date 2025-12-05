@@ -13,10 +13,12 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { comparePasswords, encodePassword } from 'src/utils/bcrypt';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService, 
+    private authService: AuthService) { }
 
   @Post()
   async create(@Body() createUserDto: Partial<CreateUserDto>) {
@@ -53,8 +55,8 @@ export class UsersController {
     if (!user || !comparePasswords(password, user.password)) {
       throw new BadRequestException('User is not valid');
     }
-
-    return user;
+    const token = await this.authService.login(user);
+    return {...user, token};
   }
 
   @Get()

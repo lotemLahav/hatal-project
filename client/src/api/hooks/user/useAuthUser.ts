@@ -6,7 +6,7 @@ import { useUser } from "../../../context/userContext/useUser";
 
 export const useAuthUser = () => {
   const [user, setUser] = useState<User | null>(null);
-  const { userCallback } = useUser();
+  const { userCallback, tokenCallback } = useUser();
 
   const getUser = async (userData: UserAuth) => {
     try {
@@ -14,7 +14,7 @@ export const useAuthUser = () => {
 
       setUser(res.data);
       userCallback(res.data.username)(); 
-
+      tokenCallback(res.data.token)();
       return res.data;
     } catch (error) {
       Swal.fire("Oops!", "Could not find user. Try again.", "error");

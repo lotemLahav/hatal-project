@@ -8,9 +8,15 @@ export const UserProvider: FC<{
   const [username, setUsername] = useState<User["username"] | null>(
     null
   );
+  const [token, setToken] = useState<User["token"] | null>(
+    null
+  );
 
   const userCallback = (username: User["username"]) => () =>
     setUsername(username);
+
+  const tokenCallback = (token: User["token"]) => () =>
+    setToken(token);
 
   const resetUsername = () => setUsername(null);
 
@@ -18,7 +24,9 @@ export const UserProvider: FC<{
     <UserContext.Provider
       value={{
         username,
+        token,
         userCallback,
+        tokenCallback,
         resetUsername,
       }}
     >
