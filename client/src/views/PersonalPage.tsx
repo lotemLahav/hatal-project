@@ -1,28 +1,14 @@
 /* eslint-disable react/jsx-key */
 import { useEffect, useState } from "react";
 import { useGetOrdersByUser } from "../api/hooks/order/useGetOrdersByUser";
-import { useUser } from "../context/userContext";
-import { FullOrder, FullUser, OrderStatus } from "../utils/types";
+import { FullOrder, OrderStatus } from "../utils/types";
 import Swal from "sweetalert2";
 import { OrderSummery } from "../components/OrderSummery/OrderSummery";
-import { useGetUserByUsername } from "../api/hooks/user/useGetUserByUsername";
-import { UserProfile } from "../components/UserProfile";
 
 export const PersonalPage = () => {
+    const username = localStorage.getItem('username');
     const { fetchOrdersByUser } = useGetOrdersByUser();
-    const { fetchUserByUsername } = useGetUserByUsername();
-    const { username } = useUser();
     const [orders, setOrders] = useState<FullOrder[]>([]);
-    const [user, setUser] = useState<FullUser | null>(null);
-
-    const fetchUser = async () => {
-        try {
-            setUser(await fetchUserByUsername(username as string));
-        } catch (error) {
-            Swal.fire("There's a problem!", "Can't get Order", "error");
-            console.error(`${error} couldn't get Orders.`);
-        }
-    }
 
     const fetchOrders = async () => {
         try {
@@ -36,7 +22,6 @@ export const PersonalPage = () => {
     useEffect(() => {
         if (username) {
             fetchOrders();
-            fetchUser();
         }
     }, [username]);
 
@@ -74,9 +59,6 @@ export const PersonalPage = () => {
                         </div>
                     </div>
                 </div>
-                {/* <div className="col-12 col-md-8 col-lg-6">
-                    <UserProfile user={user} />
-                </div> */}
             </div>
 
         </>

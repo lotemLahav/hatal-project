@@ -76,11 +76,11 @@ export const OrderSummery: FC<OrderSummeryProps> = ({ orderSummeryProps }) => {
                 <div
                     className="modal fade show d-block"
                     role="dialog"
-                    onClick={handleCloseModal} // close when clicking on the backdrop
+                    onClick={handleCloseModal}
                 >
                     <div
                         className="modal-dialog"
-                        onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside modal
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <div className="modal-content">
                             <div className="modal-header d-flex flex-row justify-content-between">

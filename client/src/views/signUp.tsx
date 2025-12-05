@@ -215,12 +215,12 @@ export const SignUp = () => {
                     </Form>
                 </div>
                 <div className="col-md-6 order-md-1 order-1 px-5">
-                    {/* <img
-                        src="https://via.placeholder.com/800x1000"
+                    <img
+                        src="broadway.webp"
                         alt="Signup Illustration"
                         className="img-fluid w-100 h-100"
                         style={{ objectFit: "cover" }}
-                    /> */}
+                    />
                 </div>
 
             </div>
