@@ -8,15 +8,19 @@ import {
   Param,
   Delete,
   BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { comparePasswords, encodePassword } from 'src/utils/bcrypt';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtAuthGuard } from 'src/auth/jwt.auth.gaurd';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService, 
+    private authService: AuthService) { }
 
   @Post()
   async create(@Body() createUserDto: Partial<CreateUserDto>) {
@@ -53,8 +57,8 @@ export class UsersController {
     if (!user || !comparePasswords(password, user.password)) {
       throw new BadRequestException('User is not valid');
     }
-
-    return user;
+    const token = await this.authService.login(user);
+    return {...user, token};
   }
 
   @Get()
@@ -62,11 +66,13 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':username')
   findOneByUsername(@Param('username') username: string) {
     return this.usersService.findOneByUsername(username);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':email')
   findOneByEmail(@Param('email') email: string) {
     return this.usersService.findOneByEmail(email);

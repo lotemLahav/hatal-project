@@ -3,6 +3,16 @@ export interface User {
   password: string;
   email: string;
   phone: string;
+  token: {
+    access_token: string;
+  };
+}
+
+export interface DecodedToken  {
+  password: string; 
+  username: string;
+  iat: number; 
+  exp: number;
 }
 
 export interface FullUser {

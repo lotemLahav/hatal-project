@@ -14,7 +14,7 @@ export const useAuthUser = () => {
 
       setUser(res.data);
       userCallback(res.data.username)(); 
-
+      localStorage.setItem('access_token', res.data.token.access_token);
       return res.data;
     } catch (error) {
       Swal.fire("Oops!", "Could not find user. Try again.", "error");

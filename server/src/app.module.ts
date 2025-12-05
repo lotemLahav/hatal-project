@@ -13,6 +13,7 @@ import { OrdersItemsModule } from './orders-items/orders-items.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [
