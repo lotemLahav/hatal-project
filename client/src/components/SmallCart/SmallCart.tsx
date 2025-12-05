@@ -15,7 +15,7 @@ export const SmallCart: FC<CardProps> = ({ productProps }) => {
                 <div
                     className="content d-flex flex-column"
                     style={{
-                        maxHeight: "420px", // 4 cards × 100px height + 20px spacing
+                        maxHeight: "420px",
                         overflowY: "auto",
                         overflowX: "hidden"
                     }}

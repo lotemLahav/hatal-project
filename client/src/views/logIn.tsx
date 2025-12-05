@@ -113,7 +113,7 @@ export const LogIn = () => {
         <div className="container-fluid">
             <div className="row vh-100 flex-row">
                 <div className="col-md-5 order-md-2 order-2 d-flex flex-column justify-content-center px-5">
-                    <h1 className="mb-4">Welcome Back!</h1>
+                    <h1 className="mb-4">!Welcome Back</h1>
                     <p>Please enter your details</p>
 
                     <Form onSubmit={handleSubmit}>
@@ -174,12 +174,12 @@ export const LogIn = () => {
                 </div>
 
                 <div className="col-md-6 order-md-1 order-1 px-5">
-                    {/* <img
-                        src="https://via.placeholder.com/800x1000"
+                    <img
+                        src="les.jpg"
                         alt="Login Illustration"
                         className="img-fluid w-100 h-100"
                         style={{ objectFit: "cover" }}
-                    /> */}
+                    />
                 </div>
             </div>
         </div>

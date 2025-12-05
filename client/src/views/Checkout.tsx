@@ -4,9 +4,9 @@ import { useCart } from "../context/CartContext/useCart";
 import { useNavigate } from 'react-router-dom';
 import { usePostOrder } from "../api/hooks/order/usePostOrder";
 import { usePostOrderItem } from "../api/hooks/orderItem/usePostOrderItem";
-import { useUser } from "../context/userContext";
 import { FullOrder, Order, OrderItem } from "../utils/types";
 import Swal from "sweetalert2";
+import { useUser } from "../context/userContext";
 
 export const Checkout = () => {
     const { cartProducts, cartProductsCallback } = useCart();
@@ -33,12 +33,11 @@ export const Checkout = () => {
         }
 
         try {
-            const newOrder: FullOrder = await postOrder(order);  // ✅ Store the returned order
+            const newOrder: FullOrder = await postOrder(order);
 
-            // ✅ Use newOrder.id instead of createdOrder.id
             for (const product of cartProducts ?? []) {
                 const item: OrderItem = {
-                    order: newOrder.id,   // ✅ Use the value directly
+                    order: newOrder.id,
                     product: product.id,
                     price: product.price,
                 };
@@ -51,11 +50,11 @@ export const Checkout = () => {
                 }
             }
             cartProductsCallback([]);
-            // Navigate after all items are
+            navigate('/profile')
 
         } catch (error: unknown) {
             Swal.fire("There's a problem!", "Can't create Order", "error");
-            console.error(`${error} couldn't create Order.`);
+            console.error(`${error} couldn't create Order.`); 
         }
     }
 
@@ -69,35 +68,38 @@ export const Checkout = () => {
                 <hr className="border border-2 w-100" />
 
                 <div className="d-flex justify-content-around">
-                    <Card style={{ width: "40%", alignSelf: "center" }}>
-                        <Card.Body>
-                            <Card.Title className="d-flex flex-row justify-content-between" >
-                                <p style={{ color: "#F39C42" }}>{cartProducts?.reduce((currentValue, item) => item.price + currentValue, 0)}₪</p>
-                                <p style={{ color: "#1E3D5A" }}>:Price</p>
-                            </Card.Title>
-                            <hr className="border border-2 w-100" />
-                            <Card.Title className="d-flex flex-row justify-content-between" >
-                                <p style={{ color: "#F39C42" }}>{servicePrice}₪</p>
-                                <p style={{ color: "#1E3D5A" }}>:Service Price</p>
-                            </Card.Title>
-                            <hr className="border border-2 w-100" />
-                            <Card.Title className="d-flex flex-row justify-content-between" >
-                                <p style={{ color: "#F39C42" }}>{totalPrice()}₪</p>
-                                <p style={{ color: "#1E3D5A" }}>:Total Price</p>
-                            </Card.Title>
-                            <div className="d-flex gap-2 justify-content-between">
-                                <Button variant="primary" onClick={handleClick} size="sm">Countinue To Payment</Button>
-                                <Button variant="light" className="border border-primary" onClick={() => navigate('/home')} size="sm">Continue Shopping</Button>
-                            </div>
+                    {!cartProducts || cartProducts.length === 0 ? (
+                        <h1 className="justify-content-center">Your cart is empty</h1>
+                    ) : (
+                        <>
+                            <Card style={{ width: "40%", alignSelf: "center" }}>
+                                <Card.Body>
+                                    <Card.Title className="d-flex flex-row justify-content-between" >
+                                        <p style={{ color: "#F39C42" }}>{cartProducts?.reduce((currentValue, item) => item.price + currentValue, 0)}₪</p>
+                                        <p style={{ color: "#1E3D5A" }}>:Price</p>
+                                    </Card.Title>
+                                    <hr className="border border-2 w-100" />
+                                    <Card.Title className="d-flex flex-row justify-content-between" >
+                                        <p style={{ color: "#F39C42" }}>{servicePrice}₪</p>
+                                        <p style={{ color: "#1E3D5A" }}>:Service Price</p>
+                                    </Card.Title>
+                                    <hr className="border border-2 w-100" />
+                                    <Card.Title className="d-flex flex-row justify-content-between" >
+                                        <p style={{ color: "#F39C42" }}>{totalPrice()}₪</p>
+                                        <p style={{ color: "#1E3D5A" }}>:Total Price</p>
+                                    </Card.Title>
+                                    <div className="d-flex gap-2 justify-content-between">
+                                        <Button variant="primary" onClick={handleClick} size="sm">Continue To Payment</Button>
+                                        <Button variant="light" className="border border-primary" onClick={() => navigate('/home')} size="sm">Continue Shopping</Button>
+                                    </div>
+                                </Card.Body>
+                            </Card>
 
-
-                        </Card.Body>
-                    </Card>
-
-                    <MultipleCartItems productProps={cartProducts} />
+                            <MultipleCartItems productProps={cartProducts} />
+                        </> 
+                    )}
                 </div>
             </div>
-
         </>
     );
 };

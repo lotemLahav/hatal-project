@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
-import { UserContext } from "./UserContex";
 import { User } from "../../utils/types";
+import { UserContext } from "./index";
 
 export const UserProvider: FC<{
   children: JSX.Element[] | JSX.Element;
@@ -9,8 +9,10 @@ export const UserProvider: FC<{
     null
   );
 
-  const userCallback = (username: User["username"]) => () =>
+  const userCallback = (username: User["username"]) => () => {
     setUsername(username);
+    localStorage.setItem('username', username);
+  }
 
   const resetUsername = () => setUsername(null);
 

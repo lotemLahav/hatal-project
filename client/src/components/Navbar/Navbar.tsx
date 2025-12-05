@@ -3,18 +3,15 @@ import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Navbar from "react-bootstrap/Navbar";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { useUser } from "../../context/userContext/useUser";
 import { useCart } from "../../context/CartContext/useCart";
 import { SmallCart } from "../SmallCart";
 
 export const MyNavbar: FC = () => {
-  const { username } = useUser();
   const navigate = useNavigate();
   const imageUrl = "https://res.cloudinary.com/duzxokowe/image/upload/v1764603775/my-app-photos/cftpvqyw31vphn3x8uck.jpg";
   const { cartProducts } = useCart();
   const [hoverCart, setHoverCart] = useState(false);
 
-  // Icon configuration with routes
   const navIcons = [
     { icon: "cart2", route: "/checkout", hasPopup: true },
     { icon: "house", route: "/home", hasPopup: false },
@@ -138,8 +135,9 @@ export const MyNavbar: FC = () => {
                   }}
                   onMouseEnter={e => (e.currentTarget.style.color = "#F39C42")}
                   onMouseLeave={e => (e.currentTarget.style.color = "#1E3D5A")}
+                  onClick={() => navigate('/profile')}
                 >
-                  {username}
+                  {localStorage.getItem('username')}
                 </a>
               </Navbar.Text>
             </div>

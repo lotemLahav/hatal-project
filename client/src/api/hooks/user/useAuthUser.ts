@@ -2,7 +2,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import api from "../..";
 import { User, UserAuth } from "../../../utils/types";
-import { useUser } from "../../../context/userContext/useUser";
+import { useUser } from "../../../context/userContext";
 
 export const useAuthUser = () => {
   const [user, setUser] = useState<User | null>(null);

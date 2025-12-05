@@ -27,7 +27,7 @@ export const Gallery: FC<CardProps> = ({ productProps }) => {
                 const fetched = await fetchProductsByGenre(category);
                 setProducts(fetched);
             } else {
-                console.warn("Category not found:", category);
+                setProducts(productProps);
             }
         } catch (error) {
             Swal.fire("There's a problem!", "Can't load products", "error");
@@ -39,7 +39,6 @@ export const Gallery: FC<CardProps> = ({ productProps }) => {
         <>
             <div className="d-flex">
 
-                {/* Sidebar */}
                 <div
                     className="d-flex flex-column justify-content-center align-items-center p-3 bg-light"
                     style={{ width: "230px", height: "100vh", margin: 0 }}
@@ -49,6 +48,7 @@ export const Gallery: FC<CardProps> = ({ productProps }) => {
 
                     <ul className="nav nav-pills flex-column mb-auto text-center">
                         {[
+                            "All",
                             "drama",
                             "comedy",
                             "tragedy",
@@ -72,8 +72,6 @@ export const Gallery: FC<CardProps> = ({ productProps }) => {
                         ))}
                     </ul>
                 </div>
-
-                {/* Gallery content */}
                 <div className="content d-flex flex-wrap p-4 flex-grow-1">
                     {products.map((product, i) => (
                         <div key={i} className="img-box p-3">
