@@ -82,7 +82,7 @@ export const LogIn = () => {
         }
         try {
             await getUser(newUser);
-            navigate('/personal');
+            navigate('/home');
         } catch (error: unknown) {
             Swal.fire("theres a problem!", "cant find user", "error");
             console.error(`${error} couldn't find user.`);

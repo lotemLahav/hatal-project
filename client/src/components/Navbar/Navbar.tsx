@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Navbar from "react-bootstrap/Navbar";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -8,33 +9,35 @@ import { SmallCart } from "../SmallCart";
 
 export const MyNavbar: FC = () => {
   const { username } = useUser();
+  const navigate = useNavigate();
   const imageUrl = "https://res.cloudinary.com/duzxokowe/image/upload/v1764603775/my-app-photos/cftpvqyw31vphn3x8uck.jpg";
   const { cartProducts } = useCart();
   const [hoverCart, setHoverCart] = useState(false);
 
+  // Icon configuration with routes
+  const navIcons = [
+    { icon: "cart2", route: "/checkout", hasPopup: true },
+    { icon: "house", route: "/home", hasPopup: false },
+    { icon: "person", route: "/profile", hasPopup: false }
+  ];
+
   return (
     <>
-      <Navbar
-        bg="light"
-        expand="md"
-        className="py-0"
-      >
+      <Navbar bg="light" expand="md" className="py-0">
         <div className="container-fluid d-flex align-items-center">
-
           <div className="d-flex flex-row align-items-center">
-            {["cart2", "house", "person"].map((icon) =>
-              icon === "cart2" ? (
+            {navIcons.map(({ icon, route, hasPopup }) =>
+              hasPopup ? (
                 <div
                   key={icon}
                   className="position-relative"
                   onMouseEnter={() => setHoverCart(true)}
                   onMouseLeave={() => setHoverCart(false)}
+                  onClick={() => navigate(route)}
                   style={{ marginLeft: "12px", display: "inline-block", cursor: "pointer" }}
                 >
-                  {/* The cart icon */}
                   <i className="bi bi-cart2" style={{ fontSize: "24px" }} />
 
-                  {/* The badge */}
                   <span
                     className="badge rounded-circle bg-danger"
                     style={{
@@ -52,7 +55,6 @@ export const MyNavbar: FC = () => {
                     {cartProducts?.length || 0}
                   </span>
 
-                  {/* The hover popup */}
                   {hoverCart && (
                     <div
                       className="position-absolute bg-light border rounded p-2"
@@ -80,11 +82,11 @@ export const MyNavbar: FC = () => {
                     </div>
                   )}
                 </div>
-
               ) : (
                 <i
                   key={icon}
                   className={`bi bi-${icon} position-relative`}
+                  onClick={() => navigate(route)}
                   style={{
                     fontSize: "24px",
                     marginLeft: "12px",
@@ -97,7 +99,6 @@ export const MyNavbar: FC = () => {
                 ></i>
               )
             )}
-
 
             <form className="d-flex ms-4">
               <button
@@ -126,13 +127,11 @@ export const MyNavbar: FC = () => {
                   transition: "color 0.3s"
                 }}
               >
-                <span
-                  style={{ color: "#F39C42", cursor: "default" }}
-                >
+                <span style={{ color: "#F39C42", cursor: "default" }}>
                   Hello{" "}
                 </span>
-                <a
-                  href="#login"
+                
+                  <a href="#login"
                   style={{
                     color: "#1E3D5A",
                     textDecoration: "none",
@@ -151,9 +150,8 @@ export const MyNavbar: FC = () => {
               height="40"
             />
           </ul>
-
         </div>
-      </Navbar >
+      </Navbar>
     </>
   );
 };

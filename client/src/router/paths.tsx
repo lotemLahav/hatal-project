@@ -37,7 +37,7 @@ export const routes: Page[] = [
     isShown: true,
   },
     {
-    path: "/personal",
+    path: "/profile",
     element: <PersonalPage />,
     name: "personal",
     isShown: true,

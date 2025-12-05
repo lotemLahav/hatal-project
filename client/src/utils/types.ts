@@ -5,6 +5,14 @@ export interface User {
   phone: string;
 }
 
+export interface FullUser {
+  id: number
+  username: string;
+  password: string;
+  email: string;
+  phone: string;
+}
+
 export interface UserAuth {
   username: string;
   password: string;

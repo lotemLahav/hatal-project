@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { FullOrder, Genre, Order, OrderItem, Production, ProductProps, User, UserAuth } from "../utils/types";
+import { FullOrder, FullUser, Genre, Order, OrderItem, Production, ProductProps, User, UserAuth } from "../utils/types";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:5000/",
@@ -12,6 +12,8 @@ export default {
         axiosInstance.post(`users`, user),
       getUser: (auth: UserAuth): Promise<AxiosResponse<User>> =>
         axiosInstance.post(`users/login`, auth),
+      getUserByUsername: (username: string): Promise<AxiosResponse<FullUser>> =>
+        axiosInstance.get(`users/${username}`),
     };
   },
   products() {
