@@ -3,7 +3,9 @@ export interface User {
   password: string;
   email: string;
   phone: string;
-  token: string;
+  token: {
+    access_token: string;
+  };
 }
 
 export interface FullUser {
