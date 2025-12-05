@@ -14,12 +14,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             inject: [ConfigService],
             useFactory: async (configService: ConfigService) => ({
                 secret: configService.get<string>('JWT_SECRET') || 'supersecret',
-                signOptions: { expiresIn: '1h' },
             }),
         }),
-        forwardRef(() => UsersModule), // Use forwardRef here too
+        forwardRef(() => UsersModule), 
     ],
     providers: [AuthService, JwtStrategy],
-    exports: [AuthService], // Export AuthService so UsersModule can use it
+    exports: [AuthService], 
 })
 export class AuthModule { }

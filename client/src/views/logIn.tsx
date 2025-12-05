@@ -1,19 +1,24 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/no-unescaped-entities */
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import { useAuthUser } from "../api/hooks/user/useAuthUser";
 import Swal from "sweetalert2";
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-import { GoogleJwtPayload, UserAuth } from '../utils/types';
+import { DecodedToken, GoogleJwtPayload, UserAuth } from '../utils/types';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../context/userContext';
 
 export const LogIn = () => {
+    
     const { getUser } = useAuthUser();
     const navigate = useNavigate();
+    const { userCallback } = useUser();
+    const [errors, setErrors] = useState<FormErrors>({});
 
     type FormValues = {
         username: string;
@@ -32,7 +37,22 @@ export const LogIn = () => {
         password: [(v) => (!v.trim() ? "Password is required" : undefined)],
     };
 
-    const [errors, setErrors] = useState<FormErrors>({});
+    useEffect(() => {
+        const token = localStorage.getItem('access_token');
+
+        if (token) {
+            try {
+                const decoded = jwtDecode<DecodedToken>(token);
+                userCallback(decoded.username)();
+                navigate('/home')
+            } catch (error) {
+                console.error('Invalid token:', error);
+                localStorage.removeItem('access_token');
+                sessionStorage.removeItem('access_token');
+            }
+        }
+    }, [userCallback]);
+
 
     const validateField = (name: keyof FormValues, value: string) => {
         const rules = validationRules[name];
@@ -84,7 +104,7 @@ export const LogIn = () => {
             await getUser(newUser);
             navigate('/home');
         } catch (error: unknown) {
-            Swal.fire("theres a problem!", "cant find user", "error");
+            Swal.fire("There's a problem!", "Can't find user", "error");
             console.error(`${error} couldn't find user.`);
         }
     };
@@ -92,7 +112,6 @@ export const LogIn = () => {
     return (
         <div className="container-fluid">
             <div className="row vh-100 flex-row">
-
                 <div className="col-md-5 order-md-2 order-2 d-flex flex-column justify-content-center px-5">
                     <h1 className="mb-4">Welcome Back!</h1>
                     <p>Please enter your details</p>
@@ -151,7 +170,6 @@ export const LogIn = () => {
                                 Sign up
                             </span>
                         </p>
-
                     </Form>
                 </div>
 
@@ -163,7 +181,6 @@ export const LogIn = () => {
                         style={{ objectFit: "cover" }}
                     /> */}
                 </div>
-
             </div>
         </div>
     );

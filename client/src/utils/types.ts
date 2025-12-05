@@ -8,6 +8,13 @@ export interface User {
   };
 }
 
+export interface DecodedToken  {
+  password: string; 
+  username: string;
+  iat: number; 
+  exp: number;
+}
+
 export interface FullUser {
   id: number
   username: string;
