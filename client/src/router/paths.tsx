@@ -3,6 +3,7 @@ import { SignUp } from "../views/signUp";
 import Layout from "../views/Layout";
 import { Home } from "../views/Home";
 import { Checkout } from "../views/Checkout";
+import { PersonalPage } from "../views/PersonalPage";
 
 export interface Page {
   path: string;
@@ -33,6 +34,12 @@ export const routes: Page[] = [
     path: "/checkout",
     element: <Checkout />,
     name: "checkout",
+    isShown: true,
+  },
+    {
+    path: "/profile",
+    element: <PersonalPage />,
+    name: "personal",
     isShown: true,
   },
 ];

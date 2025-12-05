@@ -8,9 +8,9 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class OrdersService {
   constructor(
-      @InjectRepository(Order)
-      private orderRepository: Repository<Order>,
-    ) {}
+    @InjectRepository(Order)
+    private orderRepository: Repository<Order>,
+  ) { }
 
   create(createOrderDto: CreateOrderDto) {
     const order = this.orderRepository.create(createOrderDto);
@@ -19,6 +19,14 @@ export class OrdersService {
 
   findAll() {
     return `This action returns all orders`;
+  }
+
+  findAllByUser(userId: number) {
+    return this.orderRepository.find({
+      where: {
+        user: { id: userId }
+      }
+    });
   }
 
   findOne(id: number) {

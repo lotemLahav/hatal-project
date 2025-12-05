@@ -23,18 +23,23 @@ export class OrdersController {
       };
       return await this.ordersService.create(order);
     } else {
-      throw new NotFoundException;
+      throw new NotFoundException("user not found");
+    }
+  }
+
+  @Get(':username')
+  async findAllByUser(@Param('username') username: string) {
+    const user = await this.usersService.findOneByUsername(username);
+    if (user) {
+      return await this.ordersService.findAllByUser(user.id);
+    } else {
+      throw new NotFoundException("user not found")
     }
   }
 
   @Get()
   findAll() {
     return this.ordersService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ordersService.findOne(+id);
   }
 
   @Patch(':id')
