@@ -3,7 +3,8 @@ export interface User {
   password: string;
   email: string;
   phone: string;
-  token: {
+  is_admin?: boolean;
+  token?: {
     access_token: string;
   };
 }
@@ -11,6 +12,7 @@ export interface User {
 export interface DecodedToken  {
   password: string; 
   username: string;
+  isAdmin: boolean;
   iat: number; 
   exp: number;
 }

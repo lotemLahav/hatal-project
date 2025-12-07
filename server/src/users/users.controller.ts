@@ -19,7 +19,7 @@ import { JwtAuthGuard } from 'src/auth/jwt.auth.gaurd';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService, 
+  constructor(private readonly usersService: UsersService,
     private authService: AuthService) { }
 
   @Post()
@@ -31,6 +31,10 @@ export class UsersController {
       throw new BadRequestException('Username already exists');
     } else if (createUserDto.password) {
       createUserDto.password = encodePassword(createUserDto.password);
+    }
+
+    if (createUserDto.is_admin === undefined) {
+      createUserDto.is_admin = false;
     }
 
     if (createUserDto.email) {
@@ -45,7 +49,7 @@ export class UsersController {
     ) {
       throw new BadRequestException('Phone number already in use');
     }
-    return this.usersService.create(createUserDto);
+    return await this.usersService.create(createUserDto);
   }
 
   @Post('login')
@@ -58,7 +62,7 @@ export class UsersController {
       throw new BadRequestException('User is not valid');
     }
     const token = await this.authService.login(user);
-    return {...user, token};
+    return { ...user, token };
   }
 
   @Get()

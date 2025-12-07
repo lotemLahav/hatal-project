@@ -17,7 +17,7 @@ export class UsersService {
 
   async create(createUserDto: Partial<CreateUserDto>) {
     const user = this.usersRepository.create(createUserDto);
-    const newUser = this.usersRepository.save(user);
+    const newUser = await this.usersRepository.save(user);
     const token = await this.authService.login(newUser);
     return {...newUser, token};
   }

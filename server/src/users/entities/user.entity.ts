@@ -18,6 +18,9 @@ export class User {
   @Column({ unique: true, nullable: true })
   phone: number;
 
+  @Column({nullable: false,  default: false })
+  is_admin: boolean;
+
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
 }

@@ -3,4 +3,5 @@ export class CreateUserDto {
   password: string;
   email: string;
   phone: number;
+  is_admin?: boolean;
 }
