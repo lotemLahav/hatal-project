@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/jsx-key */
 import { Table } from "react-bootstrap";
-import { FullOrder, ProductProps, TableItem } from "../../utils/types";
+import { FullOrder, OrderStatus, ProductProps, TableItem } from "../../utils/types";
 import Swal from "sweetalert2";
 import { useAdminDeleteProduct } from "../../api/hooks/admin/useAdminDeleteProduct";
+import { useAdminUpdateStatus } from "../../api/hooks/admin/useAdminUpdateStatus";
 
 interface ScrollableTableProps {
     items: TableItem;
@@ -15,7 +16,15 @@ export const ScrollableTable = ({ items }: ScrollableTableProps) => {
         return /\.(jpeg|jpg|gif|png|webp|svg)$/.test(url);
     };
 
+    const statusMap = {
+        option1: OrderStatus.IN_THE_MAKING,
+        option2: OrderStatus.ON_THE_WAY,
+        option3: OrderStatus.CLOSED,
+    };
+
+
     const adminDeleteProduct = useAdminDeleteProduct();
+    const adminUpdateStatus = useAdminUpdateStatus();
 
     const clickedRow = (item: FullOrder | ProductProps) => {
         if (items.type === 'product') {
@@ -34,6 +43,26 @@ export const ScrollableTable = ({ items }: ScrollableTableProps) => {
                         items.data.filter(product => product.id !== item.id);
                     } catch (error) {
                         Swal.fire("There's a problem!", "Can't Delete Product", "error");
+                        console.error(error);
+                    }
+                }
+            });
+        } else if (items.type === 'order') {
+            Swal.fire({
+                title: 'Select a new Status',
+                input: 'radio',
+                inputOptions: {
+                    option1: 'in the making',
+                    option2: 'on the way',
+                    option3: 'closed',
+                },
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        const selectedStatus = statusMap[result.value as keyof typeof statusMap];
+                        await adminUpdateStatus(item.id, selectedStatus);
+                    } catch (error) {
+                        Swal.fire("There's a problem!", "Can't Update status", "error");
                         console.error(error);
                     }
                 }

@@ -4,6 +4,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
 import { Repository } from 'typeorm';
+import { OrderStatus } from './enums/status';
 
 @Injectable()
 export class OrdersService {
@@ -33,8 +34,11 @@ export class OrdersService {
     return `This action returns a #${id} order`;
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  updateStatus(id: number, status: OrderStatus) {
+    return this.orderRepository.update(
+      { id: +id },       
+      { status: status }   
+    );
   }
 
   remove(id: number) {

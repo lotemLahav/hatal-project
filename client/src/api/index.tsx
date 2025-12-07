@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { FullOrder, FullUser, Genre, Order, OrderItem, Production, ProductProps, User, UserAuth } from "../utils/types";
+import { FullOrder, FullUser, Genre, Order, OrderItem, OrderStatus, Production, ProductProps, User, UserAuth } from "../utils/types";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:5000/",
@@ -63,6 +63,8 @@ export default {
         axiosInstance.get(`admin/orders`),
       upadateDeleteProduct: (product: ProductProps): Promise<AxiosResponse<ProductProps | undefined>> =>
         axiosInstance.patch(`admin/products`, product),
+      updateOrderStatus: (id: number, status: string): Promise<AxiosResponse<FullOrder|undefined>> =>
+        axiosInstance.patch(`admin/orders/${id}`, {status}),
     };
   },
 };
