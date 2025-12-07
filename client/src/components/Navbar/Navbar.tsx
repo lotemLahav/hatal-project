@@ -18,11 +18,18 @@ export const MyNavbar: FC = () => {
     { icon: "person", route: "/profile", hasPopup: false }
   ];
 
+  const handleClick = () => {
+    localStorage.removeItem('username');
+    localStorage.removeItem('access_token');
+    navigate('/');
+  }
+
   return (
     <>
       <Navbar bg="light" expand="md" className="py-0">
         <div className="container-fluid d-flex align-items-center">
           <div className="d-flex flex-row align-items-center">
+            <p style={{marginLeft: "12px"}}><a className="link-opacity-100" onClick={handleClick} href="#">Sign out</a></p>
             {navIcons.map(({ icon, route, hasPopup }) =>
               hasPopup ? (
                 <div
@@ -127,8 +134,8 @@ export const MyNavbar: FC = () => {
                 <span style={{ color: "#F39C42", cursor: "default" }}>
                   Hello{" "}
                 </span>
-                
-                  <a href="#login"
+
+                <a href="#login"
                   style={{
                     color: "#1E3D5A",
                     textDecoration: "none",
