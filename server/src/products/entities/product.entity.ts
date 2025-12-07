@@ -38,6 +38,9 @@ export class Product {
   @Column({ type: 'text' })
   image_url: string;
 
+  @Column({ nullable: false, default: true })
+  is_avalible: boolean;
+
   @OneToMany(() => OrdersItem, (ordersItems) => ordersItems.product)
   ordersItems: OrdersItem[];
 }

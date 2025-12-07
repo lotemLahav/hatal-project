@@ -51,6 +51,7 @@ export interface ProductProps {
   image_url: string;
   price: number;
   duration: string;
+  is_avalible: boolean;
 }
 
 export type TableItem = 

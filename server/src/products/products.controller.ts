@@ -17,8 +17,8 @@ export class ProductsController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAllAvalible() {
+    return this.productsService.findAllAvalible();
   }
 
   @Get(':id')
@@ -43,8 +43,4 @@ export class ProductsController {
   //   return this.productsService.update(+id, updateProductDto);
   // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
-  }
 }

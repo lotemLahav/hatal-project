@@ -12,11 +12,15 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
-  ) {}
+  ) { }
 
   // create(createProductDto: CreateProductDto) {
   //   return 'This action adds a new product';
   // }
+
+  findAllAvalible() {
+    return this.productRepository.find({ where: { is_avalible: true } });
+  }
 
   findAll() {
     return this.productRepository.find();
@@ -27,18 +31,21 @@ export class ProductsService {
   }
 
   findProductByGenre(genre: ProductGenre) {
-    return this.productRepository.find({ where: { genre } });
+    return this.productRepository.find({ where: { genre, is_avalible: true } });
   }
 
   findProductByProduction(production: ProductProduction) {
-    return this.productRepository.find({ where: { production } });
+    return this.productRepository.find({ where: { production, is_avalible: true } });
   }
 
   // update(id: number, updateProductDto: UpdateProductDto) {
   //   return `This action updates a #${id} product`;
   // }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  updateRemove(product: Product) {
+    return this.productRepository.update(
+      { id: product.id },       
+      { is_avalible: false }    
+    );
   }
 }

@@ -61,6 +61,8 @@ export default {
         axiosInstance.get(`admin/products`),
       getAllOrders: (): Promise<AxiosResponse<FullOrder[]>> =>
         axiosInstance.get(`admin/orders`),
+      upadateDeleteProduct: (product: ProductProps): Promise<AxiosResponse<ProductProps | undefined>> =>
+        axiosInstance.patch(`admin/products`, product),
     };
   },
 };
