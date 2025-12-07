@@ -4,6 +4,7 @@ import Layout from "../views/Layout";
 import { Home } from "../views/Home";
 import { Checkout } from "../views/Checkout";
 import { PersonalPage } from "../views/PersonalPage";
+import { Admin } from "../views/Admin";
 
 export interface Page {
   path: string;
@@ -40,6 +41,12 @@ export const routes: Page[] = [
     path: "/profile",
     element: <PersonalPage />,
     name: "personal",
+    isShown: true,
+  },
+  {
+    path: "/admin",
+    element: <Admin />,
+    name: "admin",
     isShown: true,
   },
 ];
