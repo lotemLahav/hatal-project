@@ -5,12 +5,16 @@ import { FullOrder, OrderStatus, ProductProps, TableItem } from "../../utils/typ
 import Swal from "sweetalert2";
 import { useAdminDeleteProduct } from "../../api/hooks/admin/useAdminDeleteProduct";
 import { useAdminUpdateStatus } from "../../api/hooks/admin/useAdminUpdateStatus";
+import { useEffect, useState } from "react";
 
 interface ScrollableTableProps {
     items: TableItem;
+    onRefetch: () => void; 
 }
 
-export const ScrollableTable = ({ items }: ScrollableTableProps) => {
+export const ScrollableTable = ({ items, onRefetch }: ScrollableTableProps) => {
+    const [shouldRefetch, setShouldRefetch] = useState(false);
+
     const isImageUrl = (url: string) => {
         if (typeof url !== 'string') return false;
         return /\.(jpeg|jpg|gif|png|webp|svg)$/.test(url);
@@ -22,15 +26,21 @@ export const ScrollableTable = ({ items }: ScrollableTableProps) => {
         option3: OrderStatus.CLOSED,
     };
 
-
     const adminDeleteProduct = useAdminDeleteProduct();
     const adminUpdateStatus = useAdminUpdateStatus();
+
+    useEffect(() => {
+        if (shouldRefetch) {
+            onRefetch();
+            setShouldRefetch(false);
+        }
+    }, [shouldRefetch, onRefetch]);
 
     const clickedRow = (item: FullOrder | ProductProps) => {
         if (items.type === 'product') {
             Swal.fire({
-                title: "?Are you Sure",
-                text: "?sure you want to deleate this product",
+                title: "Are you Sure?",
+                text: "Sure you want to delete this product?",
                 icon: "question",
                 showDenyButton: true,
                 confirmButtonText: "Delete",
@@ -40,7 +50,7 @@ export const ScrollableTable = ({ items }: ScrollableTableProps) => {
                     try {
                         await adminDeleteProduct(item as ProductProps);
                         Swal.fire("Deleted!", "", "success");
-                        items.data.filter(product => product.id !== item.id);
+                        setShouldRefetch(true);
                     } catch (error) {
                         Swal.fire("There's a problem!", "Can't Delete Product", "error");
                         console.error(error);
@@ -56,11 +66,14 @@ export const ScrollableTable = ({ items }: ScrollableTableProps) => {
                     option2: 'on the way',
                     option3: 'closed',
                 },
+                showCancelButton: true,
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
                         const selectedStatus = statusMap[result.value as keyof typeof statusMap];
                         await adminUpdateStatus(item.id, selectedStatus);
+                        Swal.fire("Updated!", "", "success");
+                        setShouldRefetch(true);
                     } catch (error) {
                         Swal.fire("There's a problem!", "Can't Update status", "error");
                         console.error(error);
@@ -97,6 +110,7 @@ export const ScrollableTable = ({ items }: ScrollableTableProps) => {
                                     maxWidth: '200px',
                                     wordBreak: 'break-word',
                                     whiteSpace: 'normal',
+                                    cursor: 'pointer'
                                 }}
                             >
                                 {typeof field === 'boolean' ? (

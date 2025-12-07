@@ -11,7 +11,7 @@ import { useAdminGetProducts } from '../api/hooks/admin/useAdminGetProducts';
 export const Admin = () => {
     const { fetchAdminOrders } = useAdminGetOrders();
     const { fetchAdminProducts } = useAdminGetProducts();
-    const [key, setKey] = useState('home');
+    const [key, setKey] = useState('products');
     const [orders, setOrders] = useState<FullOrder[]>([]);
     const [products, setProducts] = useState<ProductProps[]>([]);
 
@@ -56,15 +56,17 @@ export const Admin = () => {
             style={{ backgroundColor: "#1E3D5A" }}
         >
             <Tab eventKey="products" title="Products">
-                <ScrollableTable items={
-                    { type: 'product', data: products }} />
+                <ScrollableTable
+                    items={{ type: 'product', data: products }}
+                    onRefetch={handleProducts}
+                />
             </Tab>
             <Tab eventKey="orders" title="Orders">
-                <ScrollableTable items={
-                    { type: 'order', data: orders }} />
+                <ScrollableTable
+                    items={{ type: 'order', data: orders }}
+                    onRefetch={handleOrders}
+                />
             </Tab>
         </Tabs>
     );
 }
-
-

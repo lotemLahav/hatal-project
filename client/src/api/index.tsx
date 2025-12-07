@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { FullOrder, FullUser, Genre, Order, OrderItem, OrderStatus, Production, ProductProps, User, UserAuth } from "../utils/types";
+import { FullOrder, FullUser, Genre, Order, OrderItem, Production, ProductProps, User, UserAuth } from "../utils/types";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:5000/",
