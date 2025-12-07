@@ -55,4 +55,12 @@ export default {
         axiosInstance.get(`orders/${username}`),
     };
   },
+  admin() {
+    return {
+      getAllProducts: (): Promise<AxiosResponse<ProductProps[]>> =>
+        axiosInstance.get(`admin/products`),
+      getAllOrders: (): Promise<AxiosResponse<FullOrder[]>> =>
+        axiosInstance.get(`admin/orders`),
+    };
+  },
 };

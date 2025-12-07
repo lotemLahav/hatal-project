@@ -10,6 +10,7 @@ import { OrdersModule } from './orders/orders.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { PhotosModule } from './photos/photo.module';
 import { OrdersItemsModule } from './orders-items/orders-items.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { OrdersItemsModule } from './orders-items/orders-items.module';
     OrdersModule,
     CloudinaryModule,
     OrdersItemsModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],

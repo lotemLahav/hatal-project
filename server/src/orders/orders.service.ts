@@ -18,7 +18,7 @@ export class OrdersService {
   }
 
   findAll() {
-    return `This action returns all orders`;
+    return this.orderRepository.find();
   }
 
   findAllByUser(userId: number) {

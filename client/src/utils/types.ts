@@ -53,6 +53,10 @@ export interface ProductProps {
   duration: string;
 }
 
+export type TableItem = 
+  | { type: 'product'; data: ProductProps[] }
+  | { type: 'order'; data: FullOrder[] };
+
 export enum Genre {
   "drama",
   "comedy",
