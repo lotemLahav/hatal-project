@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { ScrollableTable } from '../components/ScrollableTable';
+import { AddProductForm } from '../components/AddProduct/AddProduct';
 import { useAdminGetOrders } from '../api/hooks/admin/useAdminGetOrders';
 import { FullOrder, ProductProps } from '../utils/types';
 import Swal from 'sweetalert2';
@@ -14,6 +15,7 @@ export const Admin = () => {
     const [key, setKey] = useState('products');
     const [orders, setOrders] = useState<FullOrder[]>([]);
     const [products, setProducts] = useState<ProductProps[]>([]);
+    const [showAddProductModal, setShowAddProductModal] = useState(false);
 
     useEffect(() => {
         if (key === "products") {
@@ -48,25 +50,42 @@ export const Admin = () => {
     }
 
     return (
-        <Tabs
-            id="controlled-tab-example"
-            activeKey={key}
-            onSelect={(k) => setKey(k as string)}
-            className="mb-3 p-2"
-            style={{ backgroundColor: "#1E3D5A" }}
-        >
-            <Tab eventKey="products" title="Products">
-                <ScrollableTable
-                    items={{ type: 'product', data: products }}
-                    onRefetch={handleProducts}
-                />
-            </Tab>
-            <Tab eventKey="orders" title="Orders">
-                <ScrollableTable
-                    items={{ type: 'order', data: orders }}
-                    onRefetch={handleOrders}
-                />
-            </Tab>
-        </Tabs>
+        <>
+            <Tabs
+                id="controlled-tab-example"
+                activeKey={key}
+                onSelect={(k) => setKey(k as string)}
+                className="mb-3 p-2"
+                style={{ backgroundColor: "#1E3D5A" }}
+            >
+                <Tab eventKey="products" title="Products">
+                    <div className='p-4'>
+                        <button 
+                            type="button" 
+                            className="btn btn-primary btn-lg" 
+                            onClick={() => setShowAddProductModal(true)}
+                        >
+                            Add Product
+                        </button>
+                    </div>
+                    <ScrollableTable
+                        items={{ type: 'product', data: products }}
+                        onRefetch={handleProducts}
+                    />
+                </Tab>
+                <Tab eventKey="orders" title="Orders">
+                    <ScrollableTable
+                        items={{ type: 'order', data: orders }}
+                        onRefetch={handleOrders}
+                    />
+                </Tab>
+            </Tabs>
+
+            <AddProductForm
+                show={showAddProductModal}
+                onHide={() => setShowAddProductModal(false)}
+                onProductAdded={handleProducts}
+            />
+        </>
     );
 }

@@ -66,6 +66,17 @@ export enum Genre {
   "jukebox",
 }
 
+export interface CreateProductDto {
+  name: string;
+  genre: string;
+  production: string;
+  description: string;
+  price: number;
+  duration: string;
+  is_avalible: boolean;
+  image: string; 
+}
+
 export enum Production {
   "broadway",
   "off broadway",

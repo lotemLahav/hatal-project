@@ -5,12 +5,13 @@ import { OrdersService } from 'src/orders/orders.service';
 import { ProductsService } from 'src/products/products.service';
 import { Order } from 'src/orders/entities/order.entity';
 import { Product } from 'src/products/entities/product.entity';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Order, Product]), 
   ],
   controllers: [AdminController],
-  providers: [OrdersService, ProductsService],
+  providers: [OrdersService, ProductsService, CloudinaryService],
 })
 export class AdminModule {}

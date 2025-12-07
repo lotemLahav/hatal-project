@@ -14,9 +14,10 @@ export class ProductsService {
     private productRepository: Repository<Product>,
   ) { }
 
-  // create(createProductDto: CreateProductDto) {
-  //   return 'This action adds a new product';
-  // }
+  create(createProduct: Partial<Product>) {
+    const newProduct = this.productRepository.create(createProduct);
+    return this.productRepository.save(newProduct);
+  }
 
   findAllAvalible() {
     return this.productRepository.find({ where: { is_avalible: true } });

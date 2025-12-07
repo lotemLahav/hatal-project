@@ -1,16 +1,20 @@
-import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AdminGuard } from './admin.gaurd';
 import { OrdersService } from 'src/orders/orders.service';
 import { ProductsService } from 'src/products/products.service';
 import { Product } from 'src/products/entities/product.entity';
 import { OrderStatus } from 'src/orders/enums/status';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { CreateProductDto } from 'src/products/dto/create-product.dto';
 
 @Controller('admin')
 @UseGuards(AuthGuard('jwt'), AdminGuard)
 export class AdminController {
     constructor(private readonly orderService: OrdersService,
-        private productService: ProductsService) { }
+        private productService: ProductsService,
+        private cloudinaryService: CloudinaryService) { }
 
     @Get('/orders')
     getAllOrders() {
@@ -21,6 +25,45 @@ export class AdminController {
     getAllProducts() {
         return this.productService.findAll();
     };
+
+    @Post('products')
+    async createProduct(@Body() body: any) {
+        if (!body.image) {
+            throw new BadRequestException('Image is required');
+        }
+
+        try {
+            // Extract base64 data
+            const base64Data = body.image.split(',')[1]; // Remove "data:image/png;base64," prefix
+            const buffer = Buffer.from(base64Data, 'base64');
+
+            // Create a file-like object for Cloudinary
+            const file = {
+                buffer: buffer,
+                originalname: `${body.name}.jpg`,
+                mimetype: 'image/jpeg'
+            } as Express.Multer.File;
+
+            const uploadResult = await this.cloudinaryService.uploadImage(file);
+
+            const newProduct = {
+                name: body.name,
+                genre: body.genre,
+                production: body.production,
+                description: body.description,
+                price: body.price,
+                duration: body.duration,
+                image_url: uploadResult.secure_url,
+                image_name: uploadResult.public_id,
+                is_avalible: true
+            };
+
+            return await this.productService.create(newProduct);
+        } catch (error) {
+            console.error(error);
+            throw new BadRequestException('Failed to upload image or create product');
+        }
+    }
 
     @Patch('/products')
     async deleteProduct(@Body() product: Product) {
@@ -33,5 +76,5 @@ export class AdminController {
         @Body() body: { status: string }
     ) {
         this.orderService.updateStatus(id, body.status as OrderStatus);
-    }
+    };
 }
