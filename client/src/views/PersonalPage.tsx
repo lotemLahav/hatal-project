@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-key */
 import { useEffect, useState } from "react";
 import { useGetOrdersByUser } from "../api/hooks/order/useGetOrdersByUser";
@@ -27,6 +28,10 @@ export const PersonalPage = () => {
 
     const currentOrders = orders.filter(order => order.status !== OrderStatus.CLOSED);
     const pastOrders = orders.filter(order => order.status === OrderStatus.CLOSED);
+    const orderLists = [
+        { name: 'Current Orders', list: currentOrders },
+        { name: 'Past Orders', list: pastOrders },
+    ]
 
     return (
         <>
@@ -36,28 +41,19 @@ export const PersonalPage = () => {
             </div>
             <div className="d-flex flex-row-reverse justify-content-between">
                 <div>
-                    <div style={{ textAlign: "left", padding: '1rem' }}>
-                        <h4 className="m-0 p-1" style={{ color: "#1E3D5A" }}>Current Orders</h4>
+                    {orderLists.map(orderList =>
+                        <div style={{ textAlign: "left", padding: '1rem' }}>
+                            <h4 className="m-0 p-1" style={{ color: "#1E3D5A" }}>{orderList.name}</h4>
 
-                        <div className="overflow-y-auto" style={{ maxHeight: "260px", overflowX: "hidden" }}>
-                            {currentOrders.map((order) =>
-                                <div key={order.id}>
-                                    <OrderSummery orderSummeryProps={order} />
-                                </div>
-                            )}
+                            <div className="overflow-y-auto" style={{ maxHeight: "260px", overflowX: "hidden" }}>
+                                {orderList.list.map((order) =>
+                                    <div key={order.id}>
+                                        <OrderSummery orderSummeryProps={order} />
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                    <div style={{ textAlign: "left", padding: '1rem' }}>
-                        <h4 className="m-0 p-1" style={{ color: "#1E3D5A" }}>Past Orders</h4>
-
-                        <div className="overflow-y-auto" style={{ maxHeight: "260px", overflowX: "hidden" }}>
-                            {pastOrders.map((order) =>
-                                <div key={order.id}>
-                                    <OrderSummery orderSummeryProps={order} />
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                    )}
                 </div>
             </div>
 

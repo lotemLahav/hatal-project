@@ -8,8 +8,8 @@ import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
-import { PhotosModule } from './photos/photo.module';
 import { OrdersItemsModule } from './orders-items/orders-items.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -21,7 +21,6 @@ import { OrdersItemsModule } from './orders-items/orders-items.module';
         ConfigModule.forRoot({
           isGlobal: true,
         }),
-        PhotosModule,
       ],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
@@ -32,7 +31,6 @@ import { OrdersItemsModule } from './orders-items/orders-items.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         entities: [join(process.cwd(), 'dist/**/*.entity.js')],
-        synchronize: true,
       }),
     }),
     UsersModule,
@@ -40,6 +38,7 @@ import { OrdersItemsModule } from './orders-items/orders-items.module';
     OrdersModule,
     CloudinaryModule,
     OrdersItemsModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],

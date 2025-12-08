@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,11 +23,13 @@ export const SignUp = () => {
     };
 
     type FormErrors = {
-        username?: null | string;
-        password?: null | string;
-        email?: null | string;
-        phone?: null | string;
+        username?: string | null;
+        password?: string | null;
+        email?: string | null;
+        phone?: string | null;
+        [key: string]: string | null | undefined;
     };
+
 
     type Rule = (value: string) => string | undefined;
 
@@ -115,6 +118,13 @@ export const SignUp = () => {
         }
     }
 
+    const inputs = [
+        { type: 'text', name: 'username', placeholder: 'Username' },
+        { type: 'password', name: 'password', placeholder: 'Password' },
+        { type: 'text', name: 'email', placeholder: 'Email' },
+        { type: 'text', name: 'phone', placeholder: 'Phone Number' },
+    ]
+
 
     return (
         <div className="container-fluid">
@@ -125,69 +135,23 @@ export const SignUp = () => {
                     <h1 className="mb-4">Sign Up</h1>
 
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3">
-                            <InputGroup hasValidation>
-                                <Form.Control
-                                    style={{ textAlign: "left" }}
-                                    type="text"
-                                    name="username"
-                                    placeholder="Username"
-                                    isInvalid={!!errors.username}
-                                    isValid={errors.username === null}
-                                />
-                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end' }}>
-                                    {errors.username}
-                                </Form.Control.Feedback>
-                            </InputGroup>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <InputGroup hasValidation>
-                                <Form.Control
-                                    style={{ textAlign: "left" }}
-                                    type="password"
-                                    name="password"
-                                    placeholder="Password"
-                                    isInvalid={!!errors.password}
-                                    isValid={errors.password === null}
-                                />
-                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end' }}>
-                                    {errors.password}
-                                </Form.Control.Feedback>
-                            </InputGroup>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <InputGroup hasValidation>
-                                <Form.Control
-                                    style={{ textAlign: "left" }}
-                                    type="text"
-                                    name="email"
-                                    placeholder="Email"
-                                    isInvalid={!!errors.email}
-                                    isValid={errors.email === null}
-                                />
-                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end' }}>
-                                    {errors.email}
-                                </Form.Control.Feedback>
-                            </InputGroup>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <InputGroup hasValidation>
-                                <Form.Control
-                                    style={{ textAlign: "left" }}
-                                    type="text"
-                                    name="phone"
-                                    placeholder="Phone Number"
-                                    isInvalid={!!errors.phone}
-                                    isValid={errors.phone === null}
-                                />
-                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end' }}>
-                                    {errors.phone}
-                                </Form.Control.Feedback>
-                            </InputGroup>
-                        </Form.Group>
+                        {inputs.map(input =>
+                            <Form.Group className="mb-3">
+                                <InputGroup hasValidation>
+                                    <Form.Control
+                                        style={{ textAlign: "left" }}
+                                        type={input.type}
+                                        name={input.name}
+                                        placeholder={input.placeholder}
+                                        isInvalid={!!errors[input.name]}
+                                    isValid={errors[input.name] === null}
+                                    />
+                                    <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em', textAlign: 'end' }}>
+                                        {errors[input.name]}
+                                    </Form.Control.Feedback>
+                                </InputGroup>
+                            </Form.Group>
+                        )}
 
                         <Button type="submit" className="w-100 mb-3">
                             Submit
@@ -216,7 +180,7 @@ export const SignUp = () => {
                 </div>
                 <div className="col-md-6 order-md-1 order-1 px-5">
                     <img
-                        src="broadway.webp"
+                        src="https://res.cloudinary.com/duzxokowe/image/upload/v1765183366/broadway_etwofq.webp"
                         alt="Signup Illustration"
                         className="img-fluid w-100 h-100"
                         style={{ objectFit: "cover" }}

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { FullOrder, FullUser, Genre, Order, OrderItem, Production, ProductProps, User, UserAuth } from "../utils/types";
+import { CreateProductDto, FullOrder, FullUser, Genre, Order, OrderItem, Production, ProductProps, User, UserAuth } from "../utils/types";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:5000/",
@@ -53,6 +53,22 @@ export default {
         axiosInstance.post(`orders`, order),
       getAllOrdersByUser: (username: string): Promise<AxiosResponse<FullOrder[]>> =>
         axiosInstance.get(`orders/${username}`),
+    };
+  },
+  admin() {
+    return {
+      getAllProducts: (): Promise<AxiosResponse<ProductProps[]>> =>
+        axiosInstance.get(`admin/products`),
+      getAllOrders: (): Promise<AxiosResponse<FullOrder[]>> =>
+        axiosInstance.get(`admin/orders`),
+      upadateDeleteProduct: (product: ProductProps): Promise<AxiosResponse<ProductProps | undefined>> =>
+        axiosInstance.patch(`admin/products`, product),
+      updateOrderStatus: (id: number, status: string): Promise<AxiosResponse<FullOrder|undefined>> =>
+        axiosInstance.patch(`admin/orders/${id}`, {status}),
+      postProduct: (product: CreateProductDto): Promise<AxiosResponse<ProductProps>> =>
+        axiosInstance.post('admin/products', product),
+      updateAvalibleProduct: (product: ProductProps): Promise<AxiosResponse<ProductProps>> =>
+        axiosInstance.patch(`admin/products/avalible`, product),
     };
   },
 };

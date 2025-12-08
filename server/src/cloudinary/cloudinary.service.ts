@@ -13,11 +13,11 @@ export class CloudinaryService {
     return new Promise((resolve, reject) => {
       const uploadStream = v2.uploader.upload_stream(
         {
-          folder: 'my-app-photos', // Optional: organize in folders
+          folder: 'my-app-photos', 
           transformation: [
-            { width: 1000, height: 1000, crop: 'limit' }, // Max dimensions
-            { quality: 'auto' }, // Auto quality
-            { fetch_format: 'auto' }, // Auto format (WebP when supported)
+            { width: 1000, height: 1000, crop: 'limit' }, 
+            { quality: 'auto' }, 
+            { fetch_format: 'auto' }, 
           ],
         },
         (error, result) => {

@@ -3,6 +3,7 @@ export interface User {
   password: string;
   email: string;
   phone: string;
+  is_admin?: boolean;
   token: {
     access_token: string;
   };
@@ -11,6 +12,7 @@ export interface User {
 export interface DecodedToken  {
   password: string; 
   username: string;
+  isAdmin: boolean;
   iat: number; 
   exp: number;
 }
@@ -49,7 +51,12 @@ export interface ProductProps {
   image_url: string;
   price: number;
   duration: string;
+  is_avalible: boolean;
 }
+
+export type TableItem = 
+  | { type: 'product'; data: ProductProps[] }
+  | { type: 'order'; data: FullOrder[] };
 
 export enum Genre {
   "drama",
@@ -57,6 +64,17 @@ export enum Genre {
   "tragedy",
   "romance",
   "jukebox",
+}
+
+export interface CreateProductDto {
+  name: string;
+  genre: string;
+  production: string;
+  description: string;
+  price: number;
+  duration: string;
+  is_avalible: boolean;
+  image: string; 
 }
 
 export enum Production {

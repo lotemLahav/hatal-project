@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import { Button, Card } from "react-bootstrap";
 import { MultipleCartItems } from "../components/MultipleCartItem";
 import { useCart } from "../context/CartContext/useCart";
@@ -35,6 +36,7 @@ export const Checkout = () => {
         try {
             const newOrder: FullOrder = await postOrder(order);
 
+            //make orderItems
             for (const product of cartProducts ?? []) {
                 const item: OrderItem = {
                     order: newOrder.id,
@@ -54,9 +56,15 @@ export const Checkout = () => {
 
         } catch (error: unknown) {
             Swal.fire("There's a problem!", "Can't create Order", "error");
-            console.error(`${error} couldn't create Order.`); 
+            console.error(`${error} couldn't create Order.`);
         }
     }
+
+    const priceFields = [
+        { name: ':Price', value: cartProducts?.reduce((currentValue, item) => item.price + currentValue, 0) },
+        { name: ':Service Fee', value: servicePrice },
+        { name: ':Total Price', value: totalPrice() },
+    ]
 
     return (
         <>
@@ -74,20 +82,13 @@ export const Checkout = () => {
                         <>
                             <Card style={{ width: "40%", alignSelf: "center" }}>
                                 <Card.Body>
-                                    <Card.Title className="d-flex flex-row justify-content-between" >
-                                        <p style={{ color: "#F39C42" }}>{cartProducts?.reduce((currentValue, item) => item.price + currentValue, 0)}₪</p>
-                                        <p style={{ color: "#1E3D5A" }}>:Price</p>
-                                    </Card.Title>
-                                    <hr className="border border-2 w-100" />
-                                    <Card.Title className="d-flex flex-row justify-content-between" >
-                                        <p style={{ color: "#F39C42" }}>{servicePrice}₪</p>
-                                        <p style={{ color: "#1E3D5A" }}>:Service Price</p>
-                                    </Card.Title>
-                                    <hr className="border border-2 w-100" />
-                                    <Card.Title className="d-flex flex-row justify-content-between" >
-                                        <p style={{ color: "#F39C42" }}>{totalPrice()}₪</p>
-                                        <p style={{ color: "#1E3D5A" }}>:Total Price</p>
-                                    </Card.Title>
+                                    {priceFields.map(field =>
+                                        <><Card.Title className="d-flex flex-row justify-content-between">
+                                            <p style={{ color: "#F39C42" }}>{field.value}₪</p>
+                                            <p style={{ color: "#1E3D5A" }}>{field.name}</p>
+                                        </Card.Title>
+                                        <hr className="border border-2 w-100" /></>
+                                    )}
                                     <div className="d-flex gap-2 justify-content-between">
                                         <Button variant="primary" onClick={handleClick} size="sm">Continue To Payment</Button>
                                         <Button variant="light" className="border border-primary" onClick={() => navigate('/home')} size="sm">Continue Shopping</Button>
@@ -96,7 +97,7 @@ export const Checkout = () => {
                             </Card>
 
                             <MultipleCartItems productProps={cartProducts} />
-                        </> 
+                        </>
                     )}
                 </div>
             </div>

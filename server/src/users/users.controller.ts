@@ -12,40 +12,46 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { comparePasswords, encodePassword } from 'src/utils/bcrypt';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt.auth.gaurd';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService, 
+  constructor(private readonly usersService: UsersService,
     private authService: AuthService) { }
 
   @Post()
   async create(@Body() createUserDto: Partial<CreateUserDto>) {
+    //checks for a unique username
     if (
       createUserDto.username &&
       (await this.usersService.findOneByUsername(createUserDto.username))
     ) {
       throw new BadRequestException('Username already exists');
+      //checks if there is a password (or login by google)
     } else if (createUserDto.password) {
       createUserDto.password = encodePassword(createUserDto.password);
+    } else if (createUserDto.email) {
+      createUserDto.password = encodePassword(createUserDto.email);
+    }
+
+    if (createUserDto.is_admin === undefined) {
+      createUserDto.is_admin = false;
     }
 
     if (createUserDto.email) {
+      //checks email is unique
       if (await this.usersService.findOneByEmail(createUserDto.email)) {
         throw new BadRequestException('Email already in use');
-      } else {
-        createUserDto.password = encodePassword(createUserDto.email);
       }
-    } else if (
-      createUserDto.phone &&
-      (await this.usersService.findOneByPhone(createUserDto.phone))
-    ) {
+    }
+
+    //checks unique phone
+    if (createUserDto.phone && (await this.usersService.findOneByPhone(createUserDto.phone))) {
       throw new BadRequestException('Phone number already in use');
     }
-    return this.usersService.create(createUserDto);
+    return await this.usersService.create(createUserDto);
   }
 
   @Post('login')
@@ -58,12 +64,7 @@ export class UsersController {
       throw new BadRequestException('User is not valid');
     }
     const token = await this.authService.login(user);
-    return {...user, token};
-  }
-
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
+    return { ...user, token };
   }
 
   @UseGuards(JwtAuthGuard)
@@ -77,17 +78,4 @@ export class UsersController {
   findOneByEmail(@Param('email') email: string) {
     return this.usersService.findOneByEmail(email);
   }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
-  }
 }
-// function compareSync(password: string | undefined, password1: string) {
-//   throw new Error('Function not implemented.');
-// }

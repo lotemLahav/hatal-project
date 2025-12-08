@@ -5,18 +5,31 @@ import Navbar from "react-bootstrap/Navbar";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useCart } from "../../context/CartContext/useCart";
 import { SmallCart } from "../SmallCart";
+import { jwtDecode } from "jwt-decode";
+import { DecodedToken } from "../../utils/types";
 
 export const MyNavbar: FC = () => {
   const navigate = useNavigate();
   const imageUrl = "https://res.cloudinary.com/duzxokowe/image/upload/v1764603775/my-app-photos/cftpvqyw31vphn3x8uck.jpg";
   const { cartProducts } = useCart();
   const [hoverCart, setHoverCart] = useState(false);
+  let navIcons = [];
+  const token = localStorage.getItem('access_token');
+  const decoded = token ? jwtDecode<DecodedToken>(token) : null;
 
-  const navIcons = [
-    { icon: "cart2", route: "/checkout", hasPopup: true },
-    { icon: "house", route: "/home", hasPopup: false },
-    { icon: "person", route: "/profile", hasPopup: false }
-  ];
+  if (decoded?.isAdmin === true) {
+    navIcons = [
+      { icon: "cart2", route: "/checkout", hasPopup: true },
+      { icon: "house", route: "/home", hasPopup: false },
+      { icon: "person", route: "/admin", hasPopup: false }
+    ];
+  } else {
+    navIcons = [
+      { icon: "cart2", route: "/checkout", hasPopup: true },
+      { icon: "house", route: "/home", hasPopup: false },
+      { icon: "person", route: "/profile", hasPopup: false }
+    ];
+  }
 
   const handleClick = () => {
     localStorage.removeItem('username');
@@ -29,7 +42,18 @@ export const MyNavbar: FC = () => {
       <Navbar bg="light" expand="md" className="py-0">
         <div className="container-fluid d-flex align-items-center">
           <div className="d-flex flex-row align-items-center">
-            <p style={{marginLeft: "12px"}}><a className="link-opacity-100" onClick={handleClick} href="#">Sign out</a></p>
+            <div
+              className="d-flex align-items-center"
+              style={{ marginLeft: "12px", cursor: "pointer" }}
+            >
+              <a
+                className="link-opacity-100"
+                onClick={handleClick}
+                style={{ textDecoration: "none" }}
+              >
+                Sign out
+              </a>
+            </div>
             {navIcons.map(({ icon, route, hasPopup }) =>
               hasPopup ? (
                 <div

@@ -8,7 +8,7 @@ import { UsersModule } from 'src/users/users.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Order]),
-    UsersModule, // <-- You MUST add this!
+    UsersModule, 
   ],
   controllers: [OrdersController],
   providers: [OrdersService],
