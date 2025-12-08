@@ -56,10 +56,10 @@ export const Gallery: FC<CardProps> = ({ productProps }) => {
             <div className="d-flex">
 
                 <div
-                    className="d-flex flex-column justify-content-center align-items-center p-3 bg-light"
+                    className="d-flex flex-column align-items-center p-4 bg-light"
                     style={{ width: "230px", height: "100vh", margin: 0 }}
                 >
-                    <span className="fs-4 mb-3" style={{ color: "#F39C42" }}>Filter By Categories</span>
+                    <span className="fs-4" style={{ color: "#F39C42" }}>Filter By Categories</span>
                     <hr style={{ width: "100%" }} />
 
                     <ul className="nav nav-pills flex-column mb-auto text-center">
@@ -88,7 +88,7 @@ export const Gallery: FC<CardProps> = ({ productProps }) => {
                             "west end",
                             "starkid",
                         ].map((category, i) => (
-                            <li key={i} className="nav-item mb-2 text-center">
+                            <li key={i} className="nav-item mb-1 text-center">
                                 <button
                                     className="nav-link link-dark text-center" style={{ color: "#1E3D5A" }}
                                     onClick={() => handleClick(category)}

@@ -29,8 +29,8 @@ export const PersonalPage = () => {
     const currentOrders = orders.filter(order => order.status !== OrderStatus.CLOSED);
     const pastOrders = orders.filter(order => order.status === OrderStatus.CLOSED);
     const orderLists = [
-        { name: 'Current Orders', list: currentOrders },
-        { name: 'Past Orders', list: pastOrders },
+        { name: 'Open Orders', list: currentOrders },
+        { name: 'Order History', list: pastOrders },
     ]
 
     return (

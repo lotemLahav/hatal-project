@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Form from "react-bootstrap/Form";
 import Navbar from "react-bootstrap/Navbar";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { useCart } from "../../context/CartContext/useCart";
@@ -127,23 +126,6 @@ export const MyNavbar: FC = () => {
                 ></i>
               )
             )}
-
-            <form className="d-flex ms-4">
-              <button
-                className="btn btn-outline-secondary btn-sm"
-                type="submit"
-                style={{ borderColor: "#F39C42", color: "#1E3D5A" }}
-              >
-                <i className="bi bi-search"></i>
-              </button>
-              <Form.Control
-                size="sm"
-                type="text"
-                style={{ textAlign: "left", borderColor: "#F39C42" }}
-                placeholder="Search"
-                className="me-4"
-              />
-            </form>
           </div>
 
           <ul className="navbar-nav ms-auto d-flex flex-row align-items-center gap-4">
@@ -172,12 +154,16 @@ export const MyNavbar: FC = () => {
                 </a>
               </Navbar.Text>
             </div>
-            <img
-              src={imageUrl}
-              alt="logo"
-              width="160"
-              height="40"
-            />
+            <li className="nav-item">
+              <img
+                src={imageUrl}
+                alt="logo"
+                width="160"
+                height="40"
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate('/home')}
+              />
+            </li>
           </ul>
         </div>
       </Navbar>
