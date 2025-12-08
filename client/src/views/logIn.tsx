@@ -176,7 +176,7 @@ export const LogIn = () => {
 
                 <div className="col-md-6 order-md-1 order-1 px-5">
                     <img
-                        src="les.jpg"
+                        src="https://res.cloudinary.com/duzxokowe/image/upload/v1765183444/les_lxko80.jpg"
                         alt="Login Illustration"
                         className="img-fluid w-100 h-100"
                         style={{ objectFit: "cover" }}

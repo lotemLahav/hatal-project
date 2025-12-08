@@ -216,7 +216,7 @@ export const SignUp = () => {
                 </div>
                 <div className="col-md-6 order-md-1 order-1 px-5">
                     <img
-                        src="broadway.webp"
+                        src="https://res.cloudinary.com/duzxokowe/image/upload/v1765183366/broadway_etwofq.webp"
                         alt="Signup Illustration"
                         className="img-fluid w-100 h-100"
                         style={{ objectFit: "cover" }}
