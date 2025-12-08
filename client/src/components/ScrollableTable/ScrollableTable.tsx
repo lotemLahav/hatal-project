@@ -127,7 +127,7 @@ export const ScrollableTable = ({ items, onRefetch }: ScrollableTableProps) => {
             <tbody>
                 {items.data.map((item, rowIndex) => (
                     <tr key={rowIndex}>
-                        {Object.entries(item).map(([key, field], cellIndex) => (
+                        {Object.entries(item).map(([ , field], cellIndex) => (
                             <td
                                 key={cellIndex}
                                 onClick={() => clickedRow(item)}

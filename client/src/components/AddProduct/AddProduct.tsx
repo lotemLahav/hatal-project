@@ -44,7 +44,12 @@ export const AddProductForm = ({ show, onHide, onProductAdded }: AddProductFormP
 
         if (!formData.name || !formData.genre || !formData.production ||
             !formData.description || !formData.price || !formData.duration || !formData.image) {
-            Swal.fire('Error', 'Please fill in all fields and upload an image', 'error');
+            Swal.fire({
+                title: 'Error',
+                text: 'Please fill in all fields and upload an image',
+                icon: 'error',
+                confirmButtonColor: '#1E3D5A'
+            });
             return;
         }
 
@@ -68,7 +73,12 @@ export const AddProductForm = ({ show, onHide, onProductAdded }: AddProductFormP
             };
 
             await postProduct(productData);
-            Swal.fire('Success!', 'Product added successfully', 'success');
+            Swal.fire({
+                title: 'Success!',
+                text: 'Product added successfully',
+                icon: 'success',
+                confirmButtonColor: '#F39C42'
+            });
             onProductAdded();
             onHide();
 
@@ -82,14 +92,19 @@ export const AddProductForm = ({ show, onHide, onProductAdded }: AddProductFormP
                 image: null
             });
         } catch (error) {
-            Swal.fire('Error!', 'Could not add product', 'error');
+            Swal.fire({
+                title: 'Error!',
+                text: 'Could not add product',
+                icon: 'error',
+                confirmButtonColor: '#1E3D5A'
+            });
             console.error(error);
         }
     };
 
     return (
         <Modal show={show} onHide={onHide} size="lg" centered>
-            <Modal.Header closeButton>
+            <Modal.Header closeButton style={{ backgroundColor: '#1E3D5A', color: '#fff', borderBottom: '3px solid #F39C42' }}>
                 <Modal.Title>Add New Product</Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -106,35 +121,37 @@ export const AddProductForm = ({ show, onHide, onProductAdded }: AddProductFormP
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <div className='d-flex justify-content-between'>
-                            <div>
-                                <Form.Label className='p-2'>Genre</Form.Label>
+                        <Row>
+                            <Col md={6}>
+                                <Form.Label>Genre</Form.Label>
                                 <Form.Select required
                                     name="genre"
                                     value={formData.genre}
                                     onChange={handleInputChange}
                                 >
-                                    <option value="comedy">comedy</option>
-                                    <option value="drama">drama</option>
-                                    <option value="tragedy">tragedy</option>
-                                    <option value="romance">romance</option>
-                                    <option value="jukebox">jukebox</option>
+                                    <option value="">Select Genre</option>
+                                    <option value="comedy">Comedy</option>
+                                    <option value="drama">Drama</option>
+                                    <option value="tragedy">Tragedy</option>
+                                    <option value="romance">Romance</option>
+                                    <option value="jukebox">Jukebox</option>
                                 </Form.Select>
-                            </div>
-                            <div>
-                                <Form.Label className='p-2'>Production</Form.Label>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Label>Production</Form.Label>
                                 <Form.Select required
                                     name="production"
                                     value={formData.production}
                                     onChange={handleInputChange}
                                 >
-                                    <option value="broadway">broadway</option>
-                                    <option value="off broadway">off broadway</option>
-                                    <option value="west end">west end</option>
-                                    <option value="starkid">starkid</option>
+                                    <option value="">Select Production</option>
+                                    <option value="broadway">Broadway</option>
+                                    <option value="off broadway">Off Broadway</option>
+                                    <option value="west end">West End</option>
+                                    <option value="starkid">Starkid</option>
                                 </Form.Select>
-                            </div>
-                        </div>
+                            </Col>
+                        </Row>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
@@ -191,10 +208,10 @@ export const AddProductForm = ({ show, onHide, onProductAdded }: AddProductFormP
                 <Button variant="secondary" onClick={onHide}>
                     Cancel
                 </Button>
-                <Button variant="primary" onClick={handleSubmit}>
+                <Button onClick={handleSubmit} style={{ backgroundColor: '#F39C42', borderColor: '#F39C42' }}>
                     Add Product
                 </Button>
             </Modal.Footer>
-        </Modal >
+        </Modal>
     );
 };

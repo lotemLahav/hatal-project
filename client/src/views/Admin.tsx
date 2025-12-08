@@ -26,7 +26,6 @@ export const Admin = () => {
         }
     }, [key]);
 
-
     const handleOrders = async () => {
         try {
             const res = await fetchAdminOrders();
@@ -34,7 +33,12 @@ export const Admin = () => {
                 setOrders(res);
             }
         } catch (error: unknown) {
-            Swal.fire("There's a problem!", "Can't get Orders", "error");
+            Swal.fire({
+                title: "There's a problem!",
+                text: "Can't get Orders",
+                icon: "error",
+                confirmButtonColor: '#1E3D5A'
+            });
             console.error(`${error} couldn't get Order.`);
         }
     }
@@ -46,7 +50,12 @@ export const Admin = () => {
                 setProducts(res);
             }
         } catch (error: unknown) {
-            Swal.fire("There's a problem!", "Can't get Products", "error");
+            Swal.fire({
+                title: "There's a problem!",
+                text: "Can't get Products",
+                icon: "error",
+                confirmButtonColor: '#1E3D5A'
+            });
             console.error(`${error} couldn't get Products.`);
         }
     }
@@ -64,21 +73,26 @@ export const Admin = () => {
                     <div className='p-4'>
                         <button
                             type="button"
-                            className="btn btn-primary btn-lg"
+                            className="btn btn-lg"
                             onClick={() => setShowAddProductModal(true)}
+                            style={{
+                                backgroundColor: '#F39C42',
+                                borderColor: '#F39C42',
+                                color: '#fff'
+                            }}
                         >
                             Add Product
                         </button>
                     </div>
                     <ScrollableTable
                         items={{ type: 'product', data: products }}
-                        onRefetch={() => handleProducts}
+                        onRefetch={handleProducts}
                     />
                 </Tab>
                 <Tab eventKey="orders" title="Orders">
                     <ScrollableTable
                         items={{ type: 'order', data: orders }}
-                        onRefetch={() => handleOrders()}
+                        onRefetch={handleOrders}
                     />
                 </Tab>
             </Tabs>
