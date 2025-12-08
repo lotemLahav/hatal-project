@@ -49,7 +49,6 @@ export const AddProductForm = ({ show, onHide, onProductAdded }: AddProductFormP
         }
 
         try {
-            // Convert image to base64
             const base64Image = await new Promise<string>((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = () => resolve(reader.result as string);
@@ -65,7 +64,7 @@ export const AddProductForm = ({ show, onHide, onProductAdded }: AddProductFormP
                 price: parseFloat(formData.price),
                 duration: formData.duration,
                 is_avalible: true,
-                image: base64Image // Send as base64
+                image: base64Image 
             };
 
             await postProduct(productData);
@@ -73,7 +72,6 @@ export const AddProductForm = ({ show, onHide, onProductAdded }: AddProductFormP
             onProductAdded();
             onHide();
 
-            // Reset form
             setFormData({
                 name: '',
                 genre: '',
@@ -119,7 +117,7 @@ export const AddProductForm = ({ show, onHide, onProductAdded }: AddProductFormP
                                     <option value="comedy">comedy</option>
                                     <option value="drama">drama</option>
                                     <option value="tragedy">tragedy</option>
-                                    <option value="romance">ramance</option>
+                                    <option value="romance">romance</option>
                                     <option value="jukebox">jukebox</option>
                                 </Form.Select>
                             </div>
@@ -133,6 +131,7 @@ export const AddProductForm = ({ show, onHide, onProductAdded }: AddProductFormP
                                     <option value="broadway">broadway</option>
                                     <option value="off broadway">off broadway</option>
                                     <option value="west end">west end</option>
+                                    <option value="starkid">starkid</option>
                                 </Form.Select>
                             </div>
                         </div>

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import { FC, useState } from "react";
 import { FullOrder, ProductProps } from "../../utils/types";
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -26,6 +27,14 @@ export const OrderSummery: FC<OrderSummeryProps> = ({ orderSummeryProps }) => {
 
     const handleCloseModal = () => setIsModalOpen(false);
 
+    const orderFields = [
+        { name: "order id", value: orderSummeryProps.id },
+        { name: "date", value: new Date(orderSummeryProps.created_at).toLocaleDateString() },
+        { name: "total price", value: orderSummeryProps.price },
+        { name: "status", value: orderSummeryProps.status },
+
+    ];
+
     return (
         <>
             <button
@@ -38,30 +47,14 @@ export const OrderSummery: FC<OrderSummeryProps> = ({ orderSummeryProps }) => {
             >
                 <div className="d-flex card position-relative overflow-hidden border-0" style={{ width: "500px", height: "60px" }}>
                     <div className="row g-0 h-100 m-0 flex-row-reverse">
-                        <div className="col-3 p-2 d-flex flex-column justify-content-end align-items-end h-100">
-                            <p className="card-text mb-1" style={{ color: "#F39C42" }}>order id</p>
-                            <p className="card-text mb-1">
-                                <strong style={{ color: "#1E3D5A" }}>{orderSummeryProps.id}</strong>
-                            </p>
-                        </div>
-                        <div className="col-3 p-2 d-flex flex-column justify-content-end align-items-end h-100">
-                            <p className="card-text mb-1" style={{ color: "#F39C42" }}>date</p>
-                            <p className="card-text mb-1">
-                                <strong style={{ color: "#1E3D5A" }}>{new Date(orderSummeryProps.created_at).toLocaleDateString()}</strong>
-                            </p>
-                        </div>
-                        <div className="col-3 p-2 d-flex flex-column justify-content-end align-items-end h-100">
-                            <p className="card-text mb-1" style={{ color: "#F39C42" }}>total price</p>
-                            <p className="card-text mb-1">
-                                <strong style={{ color: "#1E3D5A" }}>{orderSummeryProps.price}</strong>
-                            </p>
-                        </div>
-                        <div className="col-2 p-2 d-flex flex-column justify-content-end align-items-end h-100">
-                            <p className="card-text mb-1" style={{ color: "#F39C42" }}>status</p>
-                            <p className="card-text mb-1">
-                                <strong style={{ color: "#1E3D5A", fontSize: 'x-small' }}>{orderSummeryProps.status}</strong>
-                            </p>
-                        </div>
+                        {orderFields.map(field =>
+                            <div className="col-3 p-2 d-flex flex-column justify-content-end align-items-end h-100">
+                                <p className="card-text mb-1" style={{ color: "#F39C42" }}>{field.name}</p>
+                                <p className="card-text mb-1">
+                                    <strong style={{ color: "#1E3D5A" }}>{field.value}</strong>
+                                </p>
+                            </div>
+                        )}
                         <div className="col-1 p-2 d-flex flex-column justify-content-center align-items-center h-100">
                             <i className="bi bi-caret-right h4"></i>
                         </div>

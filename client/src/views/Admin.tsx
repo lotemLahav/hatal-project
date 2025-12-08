@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
@@ -24,6 +25,7 @@ export const Admin = () => {
             handleOrders();
         }
     }, [key]);
+
 
     const handleOrders = async () => {
         try {
@@ -60,9 +62,9 @@ export const Admin = () => {
             >
                 <Tab eventKey="products" title="Products">
                     <div className='p-4'>
-                        <button 
-                            type="button" 
-                            className="btn btn-primary btn-lg" 
+                        <button
+                            type="button"
+                            className="btn btn-primary btn-lg"
                             onClick={() => setShowAddProductModal(true)}
                         >
                             Add Product
@@ -70,13 +72,13 @@ export const Admin = () => {
                     </div>
                     <ScrollableTable
                         items={{ type: 'product', data: products }}
-                        onRefetch={handleProducts}
+                        onRefetch={() => handleProducts}
                     />
                 </Tab>
                 <Tab eventKey="orders" title="Orders">
                     <ScrollableTable
                         items={{ type: 'order', data: orders }}
-                        onRefetch={handleOrders}
+                        onRefetch={() => handleOrders()}
                     />
                 </Tab>
             </Tabs>

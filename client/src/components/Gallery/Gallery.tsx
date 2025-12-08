@@ -12,7 +12,7 @@ export const Gallery: FC<CardProps> = ({ productProps }) => {
     const [products, setProducts] = useState<ProductProps[]>(productProps);
     const { fetchProductsByGenre } = useGetProductsByGenre();
     const { fetchProductsByProduction } = useGetProductsByProduction();
-    const [searchQuery, setSearchQuery] = useState('');
+    const [search, setSearch] = useState('');
     const [filteredProducts, setFilteredProducts] = useState<ProductProps[]>(productProps);
 
     useEffect(() => {
@@ -22,16 +22,16 @@ export const Gallery: FC<CardProps> = ({ productProps }) => {
     }, [productProps]);
 
     useEffect(() => {
-        if (!searchQuery.trim()) {
+        if (!search.trim()) {
             setFilteredProducts(products);
         } else {
-            const query = searchQuery.toLowerCase();
+            const query = search.toLowerCase();
             const filtered = products.filter(product =>
                 product.name.toLowerCase().includes(query)
             );
             setFilteredProducts(filtered);
         }
-    }, [searchQuery, products]);
+    }, [search, products]);
 
 
     const handleClick = async (category: string) => {
@@ -46,7 +46,7 @@ export const Gallery: FC<CardProps> = ({ productProps }) => {
                 setProducts(productProps);
             }
         } catch (error) {
-            Swal.fire("There's a problem!", "Can't load products", "error");
+            Swal.fire("!There's a problem", "Can't load products", "error");
             console.error(error);
         }
     }
@@ -71,8 +71,8 @@ export const Gallery: FC<CardProps> = ({ productProps }) => {
                                     style={{ textAlign: "left", borderColor: "#F39C42" }}
                                     placeholder="Search"
                                     className="me-4"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
                                 />
                             </form>
                         </li>

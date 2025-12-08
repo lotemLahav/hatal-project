@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/no-unescaped-entities */
@@ -15,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/userContext';
 
 export const LogIn = () => {
-    
+
     const { getUser } = useAuthUser();
     const navigate = useNavigate();
     const { userCallback } = useUser();
@@ -27,8 +28,9 @@ export const LogIn = () => {
     };
 
     type FormErrors = {
-        username?: null | string;
-        password?: null | string;
+        username?: string | null;
+        password?: string | null;
+        [key: string]: string | null | undefined;
     };
 
     type Rule = (value: string) => string | undefined;
@@ -49,7 +51,7 @@ export const LogIn = () => {
             } catch (error) {
                 console.error('Invalid token:', error);
                 localStorage.removeItem('access_token');
-                sessionStorage.removeItem('access_token');
+                localStorage.removeItem('username');
             }
         }
     }, [userCallback]);
@@ -110,6 +112,11 @@ export const LogIn = () => {
         }
     };
 
+    const inputs = [
+        { type: 'text', name: 'username', placeholder: 'Username' },
+        { type: 'password', name: 'password', placeholder: 'Password' },
+    ]
+
     return (
         <div className="container-fluid">
             <div className="row vh-100 flex-row">
@@ -118,37 +125,23 @@ export const LogIn = () => {
                     <p>Please enter your details</p>
 
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3">
-                            <InputGroup hasValidation>
-                                <Form.Control
-                                    style={{ textAlign: "left" }}
-                                    type="text"
-                                    name="username"
-                                    placeholder="Username"
-                                    isInvalid={!!errors.username}
-                                    isValid={errors.username === null}
-                                />
-                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em' }}>
-                                    {errors.username || <span>&nbsp;</span>}
-                                </Form.Control.Feedback>
-                            </InputGroup>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <InputGroup hasValidation>
-                                <Form.Control
-                                    style={{ textAlign: "left" }}
-                                    type="password"
-                                    name="password"
-                                    placeholder="Password"
-                                    isInvalid={!!errors.password}
-                                    isValid={errors.password === null}
-                                />
-                                <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em' }}>
-                                    {errors.password || <span>&nbsp;</span>}
-                                </Form.Control.Feedback>
-                            </InputGroup>
-                        </Form.Group>
+                        {inputs.map(input =>
+                            <Form.Group className="mb-3">
+                                <InputGroup hasValidation>
+                                    <Form.Control
+                                        style={{ textAlign: "left" }}
+                                        type={input.type}
+                                        name={input.name}
+                                        placeholder={input.placeholder}
+                                        isInvalid={!!errors[input.name]}
+                                        isValid={errors[input.name] === null}
+                                    />
+                                    <Form.Control.Feedback type="invalid" style={{ display: 'block', minHeight: '1.25em' }}>
+                                        {errors[input.name] || <span>&nbsp;</span>}
+                                    </Form.Control.Feedback>
+                                </InputGroup>
+                            </Form.Group>
+                        )}
 
                         <Button type="submit" className="w-100 mb-3">Sign in</Button>
 
