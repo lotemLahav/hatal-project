@@ -8,7 +8,6 @@ import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
-import { PhotosModule } from './photos/photo.module';
 import { OrdersItemsModule } from './orders-items/orders-items.module';
 import { AdminModule } from './admin/admin.module';
 
@@ -22,7 +21,6 @@ import { AdminModule } from './admin/admin.module';
         ConfigModule.forRoot({
           isGlobal: true,
         }),
-        PhotosModule,
       ],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({

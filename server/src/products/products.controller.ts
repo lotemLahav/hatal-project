@@ -10,20 +10,10 @@ import { JwtAuthGuard } from 'src/auth/jwt.auth.gaurd';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  // @Post()
-  // create(@Body() createProductDto: CreateProductDto) {
-  //   return this.productsService.create(createProductDto);
-  // }
-
   @UseGuards(JwtAuthGuard)
   @Get()
   findAllAvalible() {
     return this.productsService.findAllAvalible();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -37,10 +27,4 @@ export class ProductsController {
   findProductByProduction(@Param('production') production: ProductProduction) {
     return this.productsService.findProductByProduction(production);
   }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-  //   return this.productsService.update(+id, updateProductDto);
-  // }
-
 }

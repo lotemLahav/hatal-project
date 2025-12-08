@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
 import { Repository } from 'typeorm';
@@ -30,18 +29,10 @@ export class OrdersService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
-  }
-
   updateStatus(id: number, status: OrderStatus) {
     return this.orderRepository.update(
       { id: +id },       
       { status: status }   
     );
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} order`;
   }
 }

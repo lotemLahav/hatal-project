@@ -27,10 +27,6 @@ export class ProductsService {
     return this.productRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
-  }
-
   findProductByGenre(genre: ProductGenre) {
     return this.productRepository.find({ where: { genre, is_avalible: true } });
   }
@@ -38,10 +34,6 @@ export class ProductsService {
   findProductByProduction(production: ProductProduction) {
     return this.productRepository.find({ where: { production, is_avalible: true } });
   }
-
-  // update(id: number, updateProductDto: UpdateProductDto) {
-  //   return `This action updates a #${id} product`;
-  // }
 
   updateRemove(product: Product) {
     return this.productRepository.update(
