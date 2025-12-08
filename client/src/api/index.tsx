@@ -67,6 +67,8 @@ export default {
         axiosInstance.patch(`admin/orders/${id}`, {status}),
       postProduct: (product: CreateProductDto): Promise<AxiosResponse<ProductProps>> =>
         axiosInstance.post('admin/products', product),
+      updateAvalibleProduct: (product: ProductProps): Promise<AxiosResponse<ProductProps>> =>
+        axiosInstance.patch(`admin/products/avalible`, product),
     };
   },
 };

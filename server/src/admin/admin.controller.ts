@@ -33,11 +33,9 @@ export class AdminController {
         }
 
         try {
-            // Extract base64 data
-            const base64Data = body.image.split(',')[1]; // Remove "data:image/png;base64," prefix
+            const base64Data = body.image.split(',')[1]; 
             const buffer = Buffer.from(base64Data, 'base64');
 
-            // Create a file-like object for Cloudinary
             const file = {
                 buffer: buffer,
                 originalname: `${body.name}.jpg`,
@@ -69,6 +67,11 @@ export class AdminController {
     async deleteProduct(@Body() product: Product) {
         return await this.productService.updateRemove(product);
     };
+
+    @Patch('/products/avalible')
+    async makeProductAvalible(@Body() product: Product) {
+        return await this.productService.makeProductAvalible(product);
+    }
 
     @Patch('orders/:id')
     async updateStatus(

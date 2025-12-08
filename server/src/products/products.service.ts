@@ -49,4 +49,11 @@ export class ProductsService {
       { is_avalible: false }    
     );
   }
+
+  makeProductAvalible(product: Product) {
+    return this.productRepository.update(
+      { id: product.id },       
+      { is_avalible: true }    
+    );
+  }
 }
