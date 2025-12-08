@@ -154,12 +154,16 @@ export const MyNavbar: FC = () => {
                 </a>
               </Navbar.Text>
             </div>
-            <img
-              src={imageUrl}
-              alt="logo"
-              width="160"
-              height="40"
-            />
+            <li className="nav-item">
+              <img
+                src={imageUrl}
+                alt="logo"
+                width="160"
+                height="40"
+                style={{ cursor: "pointer" }}
+                onClick={() => navigate('/home')}
+              />
+            </li>
           </ul>
         </div>
       </Navbar>
