@@ -23,13 +23,17 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: Partial<CreateUserDto>) {
+    //checks for a unique username
     if (
       createUserDto.username &&
       (await this.usersService.findOneByUsername(createUserDto.username))
     ) {
       throw new BadRequestException('Username already exists');
+      //checks if there is a password (or login by google)
     } else if (createUserDto.password) {
       createUserDto.password = encodePassword(createUserDto.password);
+    } else if (createUserDto.email) {
+      createUserDto.password = encodePassword(createUserDto.email);
     }
 
     if (createUserDto.is_admin === undefined) {
@@ -37,15 +41,14 @@ export class UsersController {
     }
 
     if (createUserDto.email) {
+      //checks email is unique
       if (await this.usersService.findOneByEmail(createUserDto.email)) {
         throw new BadRequestException('Email already in use');
-      } else {
-        createUserDto.password = encodePassword(createUserDto.email);
       }
-    } else if (
-      createUserDto.phone &&
-      (await this.usersService.findOneByPhone(createUserDto.phone))
-    ) {
+    }
+
+    //checks unique phone
+    if (createUserDto.phone && (await this.usersService.findOneByPhone(createUserDto.phone))) {
       throw new BadRequestException('Phone number already in use');
     }
     return await this.usersService.create(createUserDto);

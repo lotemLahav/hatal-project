@@ -6,6 +6,7 @@ import { OrderStatus } from './enums/status';
 import { JwtAuthGuard } from 'src/auth/jwt.auth.gaurd';
 
 @Controller('orders')
+@UseGuards(JwtAuthGuard)
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService,
     private readonly usersService: UsersService) { }
@@ -13,12 +14,13 @@ export class OrdersController {
   @Post()
   async create(@Body() createOrderDto: PartialCreateOrderDto) {
     const user = await this.usersService.findOneByUsername(createOrderDto.username);
+
     if (user) {
-      const { username, ...orderData } = createOrderDto;  // ✅ Destructure to remove username
+      const { username, ...orderData } = createOrderDto; 
       const order = {
         ...orderData,
         status: OrderStatus.WAITING_FOR_APPROVAL,
-        user: { id: user.id }  // ✅ Pass user object with id
+        user: { id: user.id } 
       };
       return await this.ordersService.create(order);
     } else {
@@ -26,7 +28,6 @@ export class OrdersController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':username')
   async findAllByUser(@Param('username') username: string) {
     const user = await this.usersService.findOneByUsername(username);

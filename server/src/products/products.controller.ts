@@ -7,22 +7,20 @@ import { ProductProduction } from './enums/production';
 import { JwtAuthGuard } from 'src/auth/jwt.auth.gaurd';
 
 @Controller('products')
+@UseGuards(JwtAuthGuard)
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   findAllAvalible() {
     return this.productsService.findAllAvalible();
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('/genre/:genre')
   findProductByGenre(@Param('genre') genre: ProductGenre) {
     return this.productsService.findProductByGenre(genre);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('/production/:production')
   findProductByProduction(@Param('production') production: ProductProduction) {
     return this.productsService.findProductByProduction(production);

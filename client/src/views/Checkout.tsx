@@ -36,6 +36,7 @@ export const Checkout = () => {
         try {
             const newOrder: FullOrder = await postOrder(order);
 
+            //make orderItems
             for (const product of cartProducts ?? []) {
                 const item: OrderItem = {
                     order: newOrder.id,

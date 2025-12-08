@@ -22,6 +22,7 @@ export class OrdersItemsService {
       relations: ['product'],
     });
 
+    //creates the product- to return with the price from order item
     const productsWithItemPrice: ProductForOrder[] = orderItems.map(item => ({
       id: item.product.id,
       name: item.product.name,

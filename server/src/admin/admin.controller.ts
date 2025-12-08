@@ -34,6 +34,7 @@ export class AdminController {
             const base64Data = body.image.split(',')[1]; 
             const buffer = Buffer.from(base64Data, 'base64');
 
+            //create file to send to the cloud
             const file = {
                 buffer: buffer,
                 originalname: `${body.name}.jpg`,
@@ -42,6 +43,7 @@ export class AdminController {
 
             const uploadResult = await this.cloudinaryService.uploadImage(file);
 
+            //create the product
             const newProduct = {
                 name: body.name,
                 genre: body.genre,
